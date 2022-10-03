@@ -35,6 +35,7 @@ public class CurrentActionExecutor : FSystem {
 		switch (currentAction.GetComponent<BasicAction>().actionType){
 			case BasicAction.ActionType.Forward:
 				ApplyForward(ca.agent);
+				Debug.Log("Move Forward");
 				break;
 			case BasicAction.ActionType.TurnLeft:
 				ApplyTurnLeft(ca.agent);

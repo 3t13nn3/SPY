@@ -62,10 +62,12 @@ public class CameraSystem : FSystem {
 		// rotate camera with "A" and "E" keys
 		if (Input.GetKey(KeyCode.A))
 		{
+			Debug.Log("Rotate on left");
 			rotateCamera(-1, 0);
 		}
 		else if (Input.GetKey(KeyCode.E))
 		{
+			Debug.Log("Rotate on Right");
 			rotateCamera(1, 0);
 		}
 
@@ -129,6 +131,7 @@ public class CameraSystem : FSystem {
 		target = agent.transform;
 		GameObjectManager.setGameObjectParent(Camera.main.transform.parent.parent.gameObject, agent, true);
 		MainLoop.instance.StartCoroutine(travelingOnAgent());
+		Debug.Log("Focused on Agent");	
 	}
 
 	private void unfocusAgent()
