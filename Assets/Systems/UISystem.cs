@@ -28,6 +28,9 @@ public class UISystem : FSystem {
 
 	private Family f_enabledinventoryBlocks = FamilyManager.getFamily(new AllOfComponents(typeof(ElementToDrag)), new AllOfProperties(PropertyMatcher.PROPERTY.ACTIVE_IN_HIERARCHY));
 
+	// Test 
+	private Family f_coeur = FamilyManager.getFamily(new AnyOfTags("Coeur"));
+
 	private GameData gameData;
 
 	public GameObject buttonExecute;
@@ -76,6 +79,8 @@ public class UISystem : FSystem {
 		});
 
 		MainLoop.instance.StartCoroutine(forceLibraryRefresh());
+
+
 	}
 
 	// Lors d'une fin d'exécution de séquence, gére les différents éléments à ré-afficher ou si il faut sauvegarder la progression du joueur
@@ -202,9 +207,18 @@ public class UISystem : FSystem {
 		GameObjectManager.setGameObjectState(buttonContinue, false);
 		GameObjectManager.setGameObjectState(buttonSpeed, value);
 		GameObjectManager.setGameObjectState(buttonStop, value);
+
+
+		/*
+		foreach (GameObject go in f_coeur)
+		{	Debug.Log(" test");
+			GameObjectManager.setGameObjectState(go, false);
+		}*/
+
 		if (gameData.actionsHistory != null)
 			foreach (GameObject trash in f_removeButton)
 				trash.GetComponent<Button>().interactable = false;
+	
 	}
 
 	// Permet de relancer le niveau au début
@@ -231,8 +245,13 @@ public class UISystem : FSystem {
 		gameData.totalExecute = 0;
 		gameData.totalCoin = 0;
 		gameData.levelToLoadScore = null;
+
+		gameData.healthPoints = 3;
+
 		gameData.dialogMessage = new List<(string, float, string, float)>();
 		resetGameData();
+
+		
 }
 
 

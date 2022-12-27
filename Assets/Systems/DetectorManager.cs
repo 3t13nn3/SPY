@@ -56,10 +56,8 @@ public class DetectorManager : FSystem {
     // Used by ReloadState button in inspector
     public void updateDetectors()
     {
-        foreach (GameObject detect in f_enemy) {
-            Debug.Log("Interaction !!!!");
+        foreach (GameObject detect in f_enemy)
             updateDetector(detect);
-        }
     }
 
     // Reset detector positions depending on drone properties (position, orientation, range...)

@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using FYFY;
+using System.Collections;
+using TMPro;
 
 /// <summary>
 /// This system executes new currentActions
@@ -10,10 +12,24 @@ public class CurrentActionExecutor : FSystem {
     private Family f_newCurrentAction = FamilyManager.getFamily(new AllOfComponents(typeof(CurrentAction), typeof(BasicAction)));
 	private Family f_player = FamilyManager.getFamily(new AllOfComponents(typeof(ScriptRef)), new AnyOfTags("Player"));
 
+	private Family f_coeur1 = FamilyManager.getFamily(new AnyOfTags("Coeur"));
+    private Family f_coeur2 = FamilyManager.getFamily(new AnyOfTags("Coeur2"));
+    private Family f_coeur3 = FamilyManager.getFamily(new AnyOfTags("Coeur3"));
+
+	private GameData gameData;
+	private Family f_trap = FamilyManager.getFamily(new AnyOfTags("Trap"));
+	private Family f_msgWarning = FamilyManager.getFamily(new AnyOfTags("MsgWarning"));
+
 	protected override void onStart()
 	{
 		f_newCurrentAction.addEntryCallback(onNewCurrentAction);
 		Pause = true;
+
+		GameObject goData = GameObject.Find("GameData");
+        if (goData != null)
+        {
+            gameData = goData.GetComponent<GameData>();
+        }
 	}
 
 	protected override void onProcess(int familiesUpdateCount)
@@ -23,6 +39,64 @@ public class CurrentActionExecutor : FSystem {
 			if (robot.GetComponent<ScriptRef>().executableScript.GetComponentInChildren<CurrentAction>() == null)
 				robot.GetComponent<ScriptRef>().nbOfInactions++;
 		Pause = true;
+	}
+
+
+	private IEnumerator ShowMsgWarning()
+    {
+        //Print the time of when the function is first called.
+        Debug.Log("Started Coroutine at timestamp : " + Time.time);
+
+		foreach (GameObject go in f_msgWarning)
+		{
+			GameObjectManager.setGameObjectState(go, true);
+		}
+	
+        //yield on a new YieldInstruction that waits for 5 seconds.
+        yield return new WaitForSeconds(2);
+
+		foreach (GameObject go in f_msgWarning)
+		{
+			GameObjectManager.setGameObjectState(go, false);
+		}
+
+        //After we have waited 5 seconds print the time again.
+        Debug.Log("Finished Coroutine at timestamp : " + Time.time);
+    }
+
+	private void lose_healthPoint ()
+	{
+
+		GameObject go_levelHP= GameObject.Find("LevelHP");
+
+		MainLoop.instance.StartCoroutine(ShowMsgWarning());
+
+
+        Debug.Log("Nb de points de vie : "+gameData.healthPoints);
+
+		gameData.healthPoints -= 1;
+
+		go_levelHP.GetComponent<TextMeshProUGUI>().text = gameData.healthPoints + " / 3";
+
+        foreach (GameObject go in f_coeur1)
+		{	
+			GameObjectManager.setGameObjectState(go, gameData.healthPoints > 0);
+		}
+
+        foreach (GameObject go in f_coeur2)
+		{	
+			GameObjectManager.setGameObjectState(go, gameData.healthPoints > 1);
+		}
+
+        foreach (GameObject go in f_coeur3)
+		{	
+			GameObjectManager.setGameObjectState(go, gameData.healthPoints > 2);
+		}
+
+        if (gameData.healthPoints < 1)
+        {
+        	GameObjectManager.addComponent<NewEnd>(MainLoop.instance.gameObject, new { endType = NewEnd.Dead});
+        }
 	}
 
 	// each time a new currentAction is added, 
@@ -35,7 +109,6 @@ public class CurrentActionExecutor : FSystem {
 		switch (currentAction.GetComponent<BasicAction>().actionType){
 			case BasicAction.ActionType.Forward:
 				ApplyForward(ca.agent);
-				Debug.Log("Move Forward");
 				break;
 			case BasicAction.ActionType.TurnLeft:
 				ApplyTurnLeft(ca.agent);
@@ -63,6 +136,12 @@ public class CurrentActionExecutor : FSystem {
 				ca.agent.GetComponent<Animator>().SetTrigger("Action");
 				break;
 		}
+
+		//Debug.Log("ENFIN !!!!!!!!!");
+
+		//update_healthPoint();
+
+
 		// notify agent moving
 		if (ca.agent.CompareTag("Drone") && !ca.agent.GetComponent<Moved>())
 			GameObjectManager.addComponent<Moved>(ca.agent);
@@ -95,6 +174,10 @@ public class CurrentActionExecutor : FSystem {
 				}
 				break;
 		}
+		//check if the case is a trap, parcourir tous les pièges et vérfier s'il correspond à la position actuelle comme methode checkObstacle
+		// les pièges sont regroupé dans une famille
+		checkTrap(go.GetComponent<Position>().x, go.GetComponent<Position>().y);
+
 	}
 
 	private void ApplyTurnLeft(GameObject go){
@@ -154,5 +237,15 @@ public class CurrentActionExecutor : FSystem {
 				return true;
 		}
 		return false;
+	}
+
+	private void checkTrap(int x, int z){
+		Debug.Log("check trap in  x "+x + "z " + z);
+		foreach( GameObject go in f_trap){
+			Debug.Log("trap exist ? ");
+			Debug.Log(" x " + go.GetComponent<Position>().x + " y " + go.GetComponent<Position>().y);
+			if(go.GetComponent<Position>().x == x && go.GetComponent<Position>().y == z)
+				lose_healthPoint();
+		}
 	}
 }

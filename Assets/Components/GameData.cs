@@ -19,4 +19,7 @@ public class GameData : MonoBehaviour {
 	public float gameSpeed_default = 1f;
 	public float gameSpeed_current = 1f;
 	public bool dragDropEnabled = true;
+
+	// On va rajouter les points de vie, c'est ici qu'on initialise : 
+	public int healthPoints = 3; 
 }

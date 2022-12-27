@@ -134,11 +134,10 @@ public class TitleScreenSystem : FSystem {
 			if (directory.Equals(levelDirectory)) {
 				for (int i = 0; i < levelButtons[directory].Count; i++) {
 					GameObjectManager.setGameObjectState(levelButtons[directory][i], true);
-					
-					// UNLOCK EVERY LEVELS BY DISABLING CONDITION
+
 					string directoryName = levelDirectory.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text;
-					/*
 					levelButtons[directory][i].transform.Find("Button").GetComponent<Button>().interactable = true;
+					/*
 					//locked levels
 					if (i <= PlayerPrefs.GetInt(directoryName, 0)) //by default first level of directory is the only unlocked level of directory
 						levelButtons[directory][i].transform.Find("Button").GetComponent<Button>().interactable = true;
@@ -146,6 +145,7 @@ public class TitleScreenSystem : FSystem {
 					else 
 						levelButtons[directory][i].transform.Find("Button").GetComponent<Button>().interactable = false;
 					*/
+
 					//scores
 					int scoredStars = PlayerPrefs.GetInt(directoryName + Path.DirectorySeparatorChar + i + gameData.scoreKey, 0); //0 star by default
 					Transform scoreCanvas = levelButtons[directory][i].transform.Find("ScoreCanvas");

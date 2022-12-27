@@ -108,6 +108,17 @@ public class EndGameManager : FSystem {
 			endPanel.GetComponent<AudioSource>().loop = true;
 			endPanel.GetComponent<AudioSource>().Play();
 		}
+		else if (f_requireEndPanel.First().GetComponent<NewEnd>().endType == NewEnd.Dead)
+		{
+			endPanel.transform.Find("VerticalCanvas").GetComponentInChildren<TextMeshProUGUI>().text = "Vous êtes mort !";
+			GameObjectManager.setGameObjectState(endPanel.transform.Find("ReloadLevel").gameObject, true);
+			GameObjectManager.setGameObjectState(endPanel.transform.Find("ReloadState").gameObject, false);
+			GameObjectManager.setGameObjectState(endPanel.transform.Find("MainMenu").gameObject, true);
+			GameObjectManager.setGameObjectState(endPanel.transform.Find("NextLevel").gameObject, false);
+			endPanel.GetComponent<AudioSource>().clip = Resources.Load("Sound/LoseSound") as AudioClip;
+			endPanel.GetComponent<AudioSource>().loop = true;
+			endPanel.GetComponent<AudioSource>().Play();
+		}
 		else if (f_requireEndPanel.First().GetComponent<NewEnd>().endType == NewEnd.Win)
 		{
 			int score = (10000 / (gameData.totalActionBlocUsed + 1) + 5000 / (gameData.totalStep + 1) + 6000 / (gameData.totalExecute + 1) + 5000 * gameData.totalCoin);
@@ -149,6 +160,8 @@ public class EndGameManager : FSystem {
 			endPanel.GetComponent<AudioSource>().loop = true;
 			endPanel.GetComponent<AudioSource>().Play();
 		}
+
+		// Rajouter ici un nouveau newEnd .endType pour le cas où plus de vie.
 	}
 
 	// Gére le nombre d'étoile à afficher selon le score obtenue

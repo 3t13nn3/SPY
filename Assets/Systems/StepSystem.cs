@@ -14,6 +14,10 @@ public class StepSystem : FSystem {
     private Family f_playingMode = FamilyManager.getFamily(new AllOfComponents(typeof(PlayMode)));
     private Family f_editingMode = FamilyManager.getFamily(new AllOfComponents(typeof(EditMode)));
 
+    private Family f_coeur1 = FamilyManager.getFamily(new AnyOfTags("Coeur"));
+    private Family f_coeur2 = FamilyManager.getFamily(new AnyOfTags("Coeur2"));
+    private Family f_coeur3 = FamilyManager.getFamily(new AnyOfTags("Coeur3"));
+
     private float timeStepCpt;
 	private GameData gameData;
     private int nbStep;
@@ -31,6 +35,9 @@ public class StepSystem : FSystem {
         }
         f_newStep.addEntryCallback(onNewStep);
 
+
+    
+
         f_playingMode.addEntryCallback(delegate
         {
             // count a new execution
@@ -40,6 +47,34 @@ public class StepSystem : FSystem {
             nbStep++;
             Pause = false;
             setToDefaultTimeStep();
+
+            
+            // test point de vies 
+            /*
+            gameData.healthPoints -= 1;
+            Debug.Log("Nb de points de vie : "+gameData.healthPoints);
+
+            foreach (GameObject go in f_coeur1)
+		    {	
+			    GameObjectManager.setGameObjectState(go, gameData.healthPoints > 0);
+		    }
+
+            foreach (GameObject go in f_coeur2)
+		    {	
+			    GameObjectManager.setGameObjectState(go, gameData.healthPoints > 1);
+		    }
+
+            foreach (GameObject go in f_coeur3)
+		    {	
+			    GameObjectManager.setGameObjectState(go, gameData.healthPoints > 2);
+		    }
+
+            if (gameData.healthPoints < 1)
+            {
+                GameObjectManager.addComponent<NewEnd>(MainLoop.instance.gameObject, new { endType = NewEnd.Dead});
+            }*/
+
+
         });
 
         f_editingMode.addEntryCallback(delegate
@@ -52,6 +87,7 @@ public class StepSystem : FSystem {
     {
         GameObjectManager.removeComponent(go.GetComponent<NewStep>());  
         timeStepCpt = (1 / gameData.gameSpeed_current) + timeStepCpt; // le "+ timeStepCpt" permet de prendre en compte le débordement de temps de la frame précédente
+        //Debug.Log(" Nouveau step ");
     }
 
     // Use to process your families.
@@ -63,11 +99,9 @@ public class StepSystem : FSystem {
             if (timeStepCpt <= 0)
             {
                 GameObjectManager.addComponent<NewStep>(MainLoop.instance.gameObject);
-                
-                Debug.Log("New Step");
-                
                 gameData.totalStep++;
                 nbStep++;
+                //Debug.Log(" Nouvelle action");
                 if (newStepAskedByPlayer)
                 {
                     newStepAskedByPlayer = false;

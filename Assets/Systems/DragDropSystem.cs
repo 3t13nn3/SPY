@@ -6,23 +6,23 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-/// Ce systï¿½me permet la gestion du drag and drop des diffï¿½rents ï¿½lï¿½ments de construction de la sï¿½quence d'action.
-/// Il gï¿½re entre autre :
-///		Le drag and drop d'un ï¿½lï¿½ment du panel librairie vers une sï¿½quence d'action
-///		Le drag and drop d'un ï¿½lï¿½ment d'une sï¿½quence d'action vers une sï¿½quence d'action (la mï¿½me ou autre)
-///		Le drag and drop d'un ï¿½lï¿½ment (bibliothï¿½que ou sequence d'action) vers l'extï¿½rieur (pour le supprimer)
-///		Le clic droit sur un ï¿½lï¿½ment dans une sequence d'action pour le supprimer
-///		Le double click sur un ï¿½lï¿½ment de la bibliothï¿½que pour l'ajouter sur la derniï¿½re dropzone utilisï¿½e
+/// Ce systéme permet la gestion du drag and drop des différents éléments de construction de la séquence d'action.
+/// Il gére entre autre :
+///		Le drag and drop d'un élément du panel librairie vers une séquence d'action
+///		Le drag and drop d'un élément d'une séquence d'action vers une séquence d'action (la même ou autre)
+///		Le drag and drop d'un élément (bibliothèque ou sequence d'action) vers l'extérieur (pour le supprimer)
+///		Le clic droit sur un élément dans une sequence d'action pour le supprimer
+///		Le double click sur un élément de la bibliothèque pour l'ajouter sur la dernière dropzone utilisée
 /// 
 /// <summary>
 /// beginDragElementFromLibrary
-///		Pour le dï¿½but du drag and drop d'un ï¿½lï¿½ment venant de la bibliothï¿½que
+///		Pour le début du drag and drop d'un élément venant de la bibliothèque
 /// beginDragElementFromEditableScript
-///		Pour le dï¿½but du drag and drop d'un ï¿½lï¿½ment venant de la sï¿½quence d'action en construction
+///		Pour le début du drag and drop d'un élément venant de la séquence d'action en construction
 /// dragElement
-///		Pendant le drag d'un ï¿½lï¿½ment
+///		Pendant le drag d'un élément
 /// endDragElement
-///		A la fin d'un drag and drop si l'ï¿½lï¿½ment n'est pas lï¿½chï¿½ dans un container pour la crï¿½ation d'une sï¿½quence
+///		A la fin d'un drag and drop si l'élément n'est pas lâché dans un container pour la création d'une séquence
 /// deleteElement
 ///		Destruction d'une block d'action
 /// </summary>
@@ -30,7 +30,7 @@ using UnityEngine.UI;
 public class DragDropSystem : FSystem
 {
 	// Les familles
-    private Family f_viewportContainerPointed = FamilyManager.getFamily(new AllOfComponents(typeof(PointerOver), typeof(ViewportContainer))); // Les container contenant les containers ï¿½ditables
+    private Family f_viewportContainerPointed = FamilyManager.getFamily(new AllOfComponents(typeof(PointerOver), typeof(ViewportContainer))); // Les container contenant les containers éditables
 	private Family f_dropZone = FamilyManager.getFamily(new AllOfComponents(typeof(DropZone))); // Les drops zones
 	private Family f_focusedDropArea = FamilyManager.getFamily(new AllOfComponents(typeof(PointerOver)), new AnyOfComponents(typeof(ReplacementSlot), typeof(DropZone)), new AnyOfProperties(PropertyMatcher.PROPERTY.ACTIVE_IN_HIERARCHY)); // the drop area under mouse cursor
 	private Family f_elementToDelete = FamilyManager.getFamily(new AllOfComponents(typeof(NeedToDelete)));
@@ -44,7 +44,7 @@ public class DragDropSystem : FSystem
 	private GameData gameData;
 	private GameObject itemDragged; // L'item (ici bloc d'action) en cours de drag
 	public GameObject mainCanvas; // Le canvas principal
-	public GameObject lastDropZoneUsed; // La derniï¿½re dropzone utilisï¿½e
+	public GameObject lastDropZoneUsed; // La dernière dropzone utilisée
 	public AudioSource audioSource; // Pour le son d'ajout de bloc
 	//Pour la gestion du double clic
 	private float lastClickTime;
@@ -140,15 +140,15 @@ public class DragDropSystem : FSystem
 		}
 	}
 
-	// Lors de la selection (dï¿½but d'un drag) d'un bloc de la librairie (voir inspector)
+	// Lors de la selection (début d'un drag) d'un bloc de la librairie (voir inspector)
 	public void beginDragElementFromLibrary(BaseEventData element)
     {
-		// On verifie si c'est un ï¿½vï¿½nement gï¿½nï¿½rï¿½ par le bouton gauche de la souris
+		// On verifie si c'est un évènement généré par le bouton gauche de la souris
 		if (!Pause && gameData.dragDropEnabled && (element as PointerEventData).button == PointerEventData.InputButton.Left && element.selectedObject != null)
 		{
 			// On active les dropzones
 			setDropZoneState(true);
-			// On crï¿½e le bloc action associï¿½ ï¿½ l'ï¿½lï¿½ment
+			// On crée le bloc action associé à l'élément
 			itemDragged = EditingUtility.createEditableBlockFromLibrary(element.selectedObject, mainCanvas);
 			// On l'ajoute aux familles de FYFY
 			GameObjectManager.bind(itemDragged);
@@ -164,10 +164,10 @@ public class DragDropSystem : FSystem
 	}
 
 
-	// Lors de la selection (dï¿½but d'un drag) d'un bloc dans la zone d'ï¿½dition
+	// Lors de la selection (début d'un drag) d'un bloc dans la zone d'édition
 	public void beginDragElementFromEditableScript(BaseEventData element)
     {
-		// On verifie si c'est un ï¿½vï¿½nement gï¿½nï¿½rï¿½ par le bouton gauche de la souris
+		// On verifie si c'est un évènement généré par le bouton gauche de la souris
 		if (!Pause && gameData.dragDropEnabled && (element as PointerEventData).button == PointerEventData.InputButton.Left && element.selectedObject != null)
 		{
 			itemDragged = element.selectedObject;
@@ -213,22 +213,22 @@ public class DragDropSystem : FSystem
 	}
 
 
-	// Determine si l'element associï¿½ ï¿½ l'ï¿½vï¿½nement EndDrag se trouve dans une zone de container ou non
-	// Dï¿½truire l'objet si lï¿½chï¿½ hors d'un container
+	// Determine si l'element associé à l'événement EndDrag se trouve dans une zone de container ou non
+	// Détruire l'objet si lâché hors d'un container
 	public void endDragElement()
 	{
 		if (!Pause && gameData.dragDropEnabled && itemDragged != null)
 		{
-			// On dï¿½sactive les dropzones
+			// On désactive les dropzones
 			setDropZoneState(false);
 
-			// On commence par regarder s'il n'y a pas de container pointï¿½, dans ce cas on supprime l'objet drag
+			// On commence par regarder s'il n'y a pas de container pointé, dans ce cas on supprime l'objet drag
 			if (f_viewportContainerPointed.Count <= 0 && f_focusedDropArea.Count <= 0)
 			{
 				undoDrop();
 				return;
 			}
-			else // sinon on ajoute l'ï¿½lï¿½ment au container pointï¿½
+			else // sinon on ajoute l'élément au container pointé
 			{
 				GameObject dropArea = null;
 				// If a drop area is pointer over, we select it
@@ -306,9 +306,8 @@ public class DragDropSystem : FSystem
 		// Update size of parent GameObject
 		GameObjectManager.addComponent<RefreshSizeOfEditableContainer>(MainLoop.instance.gameObject);
 
-		// Lance le son de dï¿½pï¿½t du block d'action
+		// Lance le son de dépôt du block d'action
 		audioSource.Play();
-		Debug.Log("Action added");
 		return true;
 	}
 
@@ -317,20 +316,20 @@ public class DragDropSystem : FSystem
     {
 		// Suppression des familles de FYFY
 		GameObjectManager.unbind(itemDragged);
-		// Dï¿½struction du bloc
+		// Déstruction du bloc
 		UnityEngine.Object.Destroy(itemDragged);
 		itemDragged = null;
 	}
 
-	// Dï¿½clenche la suppression de l'ï¿½lï¿½ment
+	// Déclenche la suppression de l'élément
 	public void deleteElement(GameObject elementToDelete)
 	{
-		// On vï¿½rifie qu'il y a bien un objet pointï¿½ pour la suppression
+		// On vérifie qu'il y a bien un objet pointé pour la suppression
 		if(!Pause && gameData.dragDropEnabled && elementToDelete != null)
         {
-			// Rï¿½activation d'une EmptyZone si nï¿½cessaire
+			// Réactivation d'une EmptyZone si nécessaire
 			EditingUtility.manageEmptyZone(elementToDelete);
-			//On associe ï¿½ l'ï¿½lï¿½ment le component ResetBlocLimit pour dï¿½clancher le script de destruction de l'ï¿½lï¿½ment
+			//On associe à l'élément le component ResetBlocLimit pour déclancher le script de destruction de l'élément
 			GameObjectManager.addComponent<ResetBlocLimit>(elementToDelete);
 			GameObjectManager.addComponent<NeedRefreshPlayButton>(MainLoop.instance.gameObject);
 			// refresh all the hierarchy of parent containers
@@ -369,7 +368,7 @@ public class DragDropSystem : FSystem
 		LayoutRebuilder.ForceRebuildLayoutImmediate(bloc);
 	}
 
-	// Si double clic sur l'ï¿½lï¿½ment de la bibliothï¿½que (voir l'inspector), ajoute le bloc d'action au dernier container utilisï¿½
+	// Si double clic sur l'élément de la bibliothèque (voir l'inspector), ajoute le bloc d'action au dernier container utilisé
 	public void checkDoubleClick(BaseEventData element)
     {
 		if (!Pause && gameData.dragDropEnabled && doubleClick() && lastDropZoneUsed != null)
@@ -379,11 +378,11 @@ public class DragDropSystem : FSystem
 			GameObject neighbor = lastDropZoneUsed.transform.parent.GetChild(Mathf.Min(lastDropZoneUsed.transform.GetSiblingIndex() + 1, lastDropZoneUsed.transform.parent.childCount - 1)).gameObject;
 			if (neighbor != null && neighbor.activeInHierarchy && neighbor.GetComponent<ReplacementSlot>())
 				GameObjectManager.setGameObjectState(neighbor, false);
-			// On crï¿½e le bloc action
+			// On crée le bloc action
 			itemDragged = EditingUtility.createEditableBlockFromLibrary(element.selectedObject, mainCanvas);
 			// On l'ajoute aux familles de FYFY
 			GameObjectManager.bind(itemDragged);
-			// On l'envoie sur la derniï¿½re dropzone utilisï¿½e
+			// On l'envoie sur la dernière dropzone utilisée
 			addDraggedItemOnDropZone(lastDropZoneUsed);
 			// refresh all the hierarchy of parent containers
 			refreshHierarchyContainers(lastDropZoneUsed);
@@ -394,12 +393,12 @@ public class DragDropSystem : FSystem
 	}
 
 
-	// Vï¿½rifie si le double click a eu lieu
+	// Vérifie si le double click a eu lieu
 	private bool doubleClick()
 	{
 		// check double click
-		// On met ï¿½ jour le timer du dernier click
-		// et on retourne la rï¿½ponse
+		// On met à jour le timer du dernier click
+		// et on retourne la réponse
 		if (Time.time - lastClickTime < catchTime)
         {
 			lastClickTime = Time.time;

@@ -7,5 +7,8 @@ public class NewEnd : MonoBehaviour {
 	public static int BadCondition = 3;
 	public static int NoMoreAttempt = 4;
 
+	// rajouter un nouveau newend pour la cas si plus de vie 
+	public static int Dead = 5;
+
 	public int endType;
 }

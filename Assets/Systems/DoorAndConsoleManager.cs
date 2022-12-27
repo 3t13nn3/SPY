@@ -68,7 +68,6 @@ public class DoorAndConsoleManager : FSystem {
 					// hide door
 					slotGo.transform.parent.GetComponent<AudioSource>().Play();
 					slotGo.transform.parent.GetComponent<Animator>().SetTrigger("Open");
-					Debug.Log("Opened");
 					slotGo.transform.parent.GetComponent<Animator>().speed = gameData.gameSpeed_current;
 					updatePathColor(id, false);
 				}

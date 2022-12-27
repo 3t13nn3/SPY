@@ -26,6 +26,8 @@ public class CurrentActionManager : FSystem
 	private Family f_playingMode = FamilyManager.getFamily(new AllOfComponents(typeof(PlayMode)));
 	private Family f_editingMode = FamilyManager.getFamily(new AllOfComponents(typeof(EditMode)));
 
+	private Family f_trap = FamilyManager.getFamily(new AnyOfTags("Trap"));
+
 	public static CurrentActionManager instance;
 
 	public CurrentActionManager()
@@ -224,6 +226,12 @@ public class CurrentActionManager : FSystem
 					 wall.GetComponent<Position>().y == agent.GetComponent<Position>().y + vec.y && wall.GetComponent<Renderer>().enabled)
 						ifok = true;
 				break;
+			case "Trap": // trap 
+				foreach (GameObject trap in f_trap)
+					if (trap.GetComponent<Position>().x == agent.GetComponent<Position>().x + vec.x &&
+					 trap.GetComponent<Position>().y == agent.GetComponent<Position>().y + vec.y)
+						ifok = true;
+				break;
 			case "FieldGate": // doors
 				foreach (GameObject door in f_door)
 					if (door.GetComponent<Position>().x == agent.GetComponent<Position>().x + vec.x &&
@@ -268,6 +276,9 @@ public class CurrentActionManager : FSystem
 	// one step consists in removing the current actions this frame and adding new CurrentAction components next frame
 	private void onNewStep(){
 		GameObject nextAction;
+
+	Debug.Log(" AHHHHHA Nouveau step ");
+
 		foreach(GameObject currentActionGO in f_currentActions){
 			CurrentAction currentAction = currentActionGO.GetComponent<CurrentAction>();
 			nextAction = getNextAction(currentActionGO, currentAction.agent);
