@@ -13,6 +13,7 @@
 						1 a wall cell that blocks agent movement
 						2 a ground cell with a spawn object
 						3 a ground cell with a teleport object (at least one to detect the end of the level)
+						4 a ground cell with a hidden trap 
 			-->
 			<cell value="-1" />
 			<cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /></line>
@@ -72,6 +73,8 @@
 		<blockLimit blockType="FieldGate" limit="0" />
 		<blockLimit blockType="Terminal" limit="0" />
 		<blockLimit blockType="Exit" limit="0" />
+		<!-- On ajoute un nouveau capteur -->
+		<blockLimit blockType="Trap" limit="0" />
 	</blockLimits>
   
 	<!-- 
