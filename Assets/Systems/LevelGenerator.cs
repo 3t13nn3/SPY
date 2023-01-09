@@ -62,8 +62,11 @@ public class LevelGenerator : FSystem {
 				XmlToLevel(doc);
 			}
 			levelName.text = Path.GetFileNameWithoutExtension(gameData.levelList[gameData.levelToLoad.Item1][gameData.levelToLoad.Item2]);
+			//xAPI statement
+			UISystem.level = levelName.text;
+			//xAPI statement
 		}
-	}
+    }
 
 	IEnumerator GetLevelWebRequest(XmlDocument doc)
 	{
@@ -91,7 +94,10 @@ public class LevelGenerator : FSystem {
 		gameData.dialogMessage = new List<(string, float, string, float)>();
 		gameData.actionBlockLimit = new Dictionary<string, int>();
 		map = new List<List<int>>();
-
+		//indice level
+		gameData.indiceMessage = new List<(string, float)>();
+		/////
+		
 		// remove comments
 		removeComments(doc);
 
@@ -110,6 +116,11 @@ public class LevelGenerator : FSystem {
 				case "dialogs":
 					readXMLDialogs(child);
 					break;
+				// indice level
+				case "indices" :
+					readXMLIndice(child);
+					break;
+				/////////////
 				case "executionLimit":
 					int amount = int.Parse(child.Attributes.GetNamedItem("amount").Value);
 					if (amount > 0)
@@ -443,6 +454,22 @@ public class LevelGenerator : FSystem {
 		}
 	}
 
+	/// indice level
+	private void readXMLIndice(XmlNode indices)
+	{
+		foreach (XmlNode indice in indices.ChildNodes)
+		{
+			string text = null;
+			if (indice.Attributes.GetNamedItem("text") != null)
+				text = indice.Attributes.GetNamedItem("text").Value;
+			float indiceHeight = -1;
+			if (indice.Attributes.GetNamedItem("textHeight") != null)
+				indiceHeight = float.Parse(indice.Attributes.GetNamedItem("textHeight").Value);
+			gameData.indiceMessage.Add((text, indiceHeight));
+		}
+	}
+	/////////
+	
 	private void readXMLConsole(XmlNode activableNode){
 		List<int> slotsID = new List<int>();
 

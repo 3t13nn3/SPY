@@ -42,7 +42,15 @@ public class UISystem : FSystem {
 	public GameObject menuEchap;
 	public GameObject canvas;
 	public GameObject libraryPanel;
-
+	
+	//xAPI statement
+	public static string allActionExecuted = "";
+	public static string objectType = "level";
+	public static string verb = "played";
+	public static int attempt = 0;
+	public static string level;
+	/////////
+	
 	public static UISystem instance;
 
 	public UISystem(){
@@ -306,6 +314,32 @@ public class UISystem : FSystem {
 			// Si on a bien trouvé un container associé
 			if (editableContainer != null)
 			{
+				//xAPI statement
+				string actionExecuted = "";
+				attempt += 1;
+				foreach (BasicAction action in editableContainer.gameObject.GetComponentsInChildren<BasicAction>())
+				{
+					actionExecuted = actionExecuted + "-" + action.actionType;
+					allActionExecuted = allActionExecuted + "-" + action.actionType;
+				}
+				Dictionary<string, string> dic = new Dictionary<string, string>();
+				dic.Add("number", level);
+				dic.Add("attempt", attempt.ToString());
+				dic.Add("script", actionExecuted);
+				GameObjectManager.addComponent<ActionPerformedForLRS>(editableContainer, new
+				{
+					verb = verb,
+					objectType = objectType,
+					activityExtensions = dic
+				});
+				// plusieurs types d'indices
+				if (attempt == 2)
+				{
+					IndiceSystem.showSecondInd = true; //si le joueur ne termine pas le niveau après deux tentatives
+					//on débloque l'indice de niveau 2
+				}
+				//////////////////////////////////
+				
 				// we fill the executable container with actions of the editable container
 				EditingUtility.fillExecutablePanel(editableContainer, executableContainer, robot.tag);
 				// bind all child

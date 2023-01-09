@@ -8,6 +8,7 @@ public class GameData : MonoBehaviour {
 	public (string, int) levelToLoad = ("Campagne infiltration", 1); //directory name, level index
 	public int[] levelToLoadScore; //levelToLoadScore[0] = best score (3 stars) ; levelToLoadScore[1] = medium score (2 stars)
 	public List<(string,float,string,float)> dialogMessage; //list of (dialogText, dialogHeight, imageName, imageHeight)
+	
 	public Dictionary<string, int> actionBlockLimit; //Is block available in library?
 	public string scoreKey = "score";
 	public int totalStep;
@@ -22,4 +23,7 @@ public class GameData : MonoBehaviour {
 
 	// On va rajouter les points de vie, c'est ici qu'on initialise : 
 	public int healthPoints = 3; 
+	/// On récupére la liste des indices de chaque niveau à partir du fichier xml 
+	public List<(string,float)>  indiceMessage; //indice of the level
+	
 }

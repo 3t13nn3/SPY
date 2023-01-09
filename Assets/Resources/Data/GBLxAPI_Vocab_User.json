@@ -1,0 +1,188 @@
+{
+    "activity": {
+        "console": {
+            "description": {
+                "en-US": ""
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/activity-types/console",
+            "name": {
+                "en-US": "console"
+            }
+        },
+        "detectioncell": {
+            "description": {
+                "en-US": "robot collided with detection cell (end game)"
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/activity-types/detectioncell",
+            "name": {
+                "en-US": "detectioncell"
+            }
+        },
+        "dialogbox": {
+            "description": {
+                "en-US": ""
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/activity-types/dialogbox",
+            "name": {
+                "en-US": "dialogbox"
+            }
+        },
+        "door": {
+            "description": {
+                "en-US": ""
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/activity-types/door",
+            "name": {
+                "en-US": "door"
+            }
+        },
+        "hint": {
+            "description": {
+                "en-US": "(indice)"
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/activity-types/hint",
+            "name": {
+                "en-US": "hint"
+            }
+        },
+        "level ": {
+            "description": {
+                "en-US": "level played"
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/activity-types/level",
+            "name": {
+                "en-US": "level "
+            }
+        },
+        "robot": {
+            "description": {
+                "en-US": ""
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/activity-types/robot",
+            "name": {
+                "en-US": "robot"
+            }
+        }
+    },
+    "extension": {
+        "attempt": {
+            "description": {
+                "en-US": "number of the attempt "
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/extensions/attempt",
+            "name": {
+                "en-US": "attempt"
+            }
+        },
+        "number": {
+            "description": {
+                "en-US": "level number "
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/extensions/number",
+            "name": {
+                "en-US": "number"
+            }
+        },
+        "script": {
+            "description": {
+                "en-US": "script executed per attempt "
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/extensions/script",
+            "name": {
+                "en-US": "script"
+            }
+        },
+        "type": {
+            "description": {
+                "en-US": "type of the hint (basic, advanced) "
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/extensions/type",
+            "name": {
+                "en-US": "type"
+            }
+        },
+        "value": {
+            "description": {
+                "en-US": "value of the hint"
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/extensions/value",
+            "name": {
+                "en-US": "value"
+            }
+        }
+    },
+    "verb": {
+        "activated": {
+            "description": {
+                "en-US": ""
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/verbs/activated",
+            "name": {
+                "en-US": "activated"
+            }
+        },
+        "closed": {
+            "description": {
+                "en-US": ""
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/verbs/closed",
+            "name": {
+                "en-US": "closed"
+            }
+        },
+        "collided ": {
+            "description": {
+                "en-US": "indicate that the learner collided a detection cell"
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/verbs/collided",
+            "name": {
+                "en-US": "collided "
+            }
+        },
+        "monitored ": {
+            "description": {
+                "en-US": ""
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/verbs/monitored",
+            "name": {
+                "en-US": "monitored "
+            }
+        },
+        "opened": {
+            "description": {
+                "en-US": ""
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/verbs/opened",
+            "name": {
+                "en-US": "opened"
+            }
+        },
+        "played": {
+            "description": {
+                "en-US": "indicate that the learner played a level of the game "
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/verbs/played",
+            "name": {
+                "en-US": "played"
+            }
+        },
+        "requested": {
+            "description": {
+                "en-US": "indicate that the learner requested a hint "
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/verbs/requested",
+            "name": {
+                "en-US": "requested"
+            }
+        },
+        "waited": {
+            "description": {
+                "en-US": ""
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/verbs/waited",
+            "name": {
+                "en-US": "waited"
+            }
+        }
+    }
+}

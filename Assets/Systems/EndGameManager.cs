@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using FYFY;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using System.IO;
 
@@ -96,6 +97,17 @@ public class EndGameManager : FSystem {
 	{
 		// display end panel (we need immediate enabling)
 		endPanel.transform.parent.gameObject.SetActive(true);
+		
+		//xAPI statement
+		Dictionary<string, string> extActi = new Dictionary<string, string>();
+		extActi.Add("number", UISystem.level);
+		Dictionary<string, string> extResu = new Dictionary<string, string>();
+		extResu.Add("attempt", UISystem.attempt.ToString());
+		int success = 0;
+		int sc = -1;
+		////////////////////////
+		
+		
 		// Get the first end that occurs
 		if (f_requireEndPanel.First().GetComponent<NewEnd>().endType == NewEnd.Detected)
 		{
@@ -125,7 +137,10 @@ public class EndGameManager : FSystem {
 			Transform verticalCanvas = endPanel.transform.Find("VerticalCanvas");
 			verticalCanvas.GetComponentInChildren<TextMeshProUGUI>().text = "Bravo vous avez gagné !\nScore: " + score;
 			setScoreStars(score, verticalCanvas.Find("ScoreCanvas"));
-
+			//xAPI statement
+			sc = score;
+			success = 1;
+			///////
 			endPanel.GetComponent<AudioSource>().clip = Resources.Load("Sound/VictorySound") as AudioClip;
 			endPanel.GetComponent<AudioSource>().loop = false;
 			endPanel.GetComponent<AudioSource>().Play();
@@ -160,6 +175,21 @@ public class EndGameManager : FSystem {
 			endPanel.GetComponent<AudioSource>().loop = true;
 			endPanel.GetComponent<AudioSource>().Play();
 		}
+		//xAPI statement
+		GameObjectManager.addComponent<ActionPerformedForLRS>(unused, new
+		{
+			verb =  UISystem.verb,
+			objectType =  UISystem.objectType,
+			result = true,
+			completed =1,
+			success =success,
+			response = UISystem.allActionExecuted,
+			score = sc,
+			activityExtensions = extActi,
+			resultExtensions = extResu
+				
+		});
+		/////////////////
 
 		// Rajouter ici un nouveau newEnd .endType pour le cas où plus de vie.
 	}

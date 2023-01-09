@@ -48,7 +48,15 @@ public class DetectorManager : FSystem {
 				if (target.GetComponent<Detector>() != null){
 					//end level
 					GameObjectManager.addComponent<NewEnd>(MainLoop.instance.gameObject, new { endType = NewEnd.Detected });
-				}
+                   
+                    //xAPI statement
+                    GameObjectManager.addComponent<ActionPerformedForLRS>(MainLoop.instance.gameObject, new
+                    {
+                        verb = "collided",
+                        objectType = "detectionCell",
+                    });
+                    //////////////
+                }
 			}			
 		}
     }
