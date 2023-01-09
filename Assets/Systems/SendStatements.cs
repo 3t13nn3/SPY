@@ -62,11 +62,10 @@ public class SendStatements : FSystem {
                         
                     }
                     else
-                    {/*
+                    {
                         Debug.Log(ap.verb);
                         Debug.Log(ap.objectType);
                         Debug.Log(ap.activityExtensions);
-                        
                         Debug.Log("cas 2");
                         bool? completed = null, success = null;
 
@@ -81,7 +80,7 @@ public class SendStatements : FSystem {
                             success = false;
 
                         GBL_Interface.SendStatementWithResult(ap.verb, ap.objectType, ap.activityExtensions, ap.resultExtensions, completed, success, ap.response, ap.score, ap.duration);
-                    */
+                    
                     }
                     
                 }
