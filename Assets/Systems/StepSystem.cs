@@ -1,5 +1,6 @@
 ﻿using FYFY;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -114,6 +115,18 @@ public class StepSystem : FSystem {
         else // newEnd_f.Count > 0 || (!playerHasNextAction && timeStep CPt <=0)
         {
             MainLoop.instance.StartCoroutine(delayCheckEnd());
+            //xAPI
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            dic.Add("number", UISystem.level);
+            dic.Add("attempt", UISystem.attempt.ToString());
+            dic.Add("script", UISystem.actionExecuted);
+            GameObjectManager.addComponent<ActionPerformedForLRS>(MainLoop.instance.gameObject, new
+            {
+                verb = UISystem.verb,
+                objectType = UISystem.objectType,
+                activityExtensions = dic
+            });
+            ////////
             Pause = true;
         }
     }

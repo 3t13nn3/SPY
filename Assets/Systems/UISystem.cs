@@ -45,6 +45,7 @@ public class UISystem : FSystem {
 	
 	//xAPI statement
 	public static string allActionExecuted = "";
+	public static string actionExecuted = "";
 	public static string objectType = "level";
 	public static string verb = "played";
 	public static int attempt = 0;
@@ -315,23 +316,19 @@ public class UISystem : FSystem {
 			if (editableContainer != null)
 			{
 				//xAPI statement
-				string actionExecuted = "";
+				//string actionExecuted = "";
+				actionExecuted = "";
 				attempt += 1;
-				foreach (BasicAction action in editableContainer.gameObject.GetComponentsInChildren<BasicAction>())
+				/*foreach (BasicAction action in editableContainer.gameObject.GetComponentsInChildren<BasicAction>())
 				{
 					actionExecuted = actionExecuted + "-" + action.actionType;
 					allActionExecuted = allActionExecuted + "-" + action.actionType;
-				}
-				Dictionary<string, string> dic = new Dictionary<string, string>();
-				dic.Add("number", level);
-				dic.Add("attempt", attempt.ToString());
-				dic.Add("script", actionExecuted);
-				GameObjectManager.addComponent<ActionPerformedForLRS>(editableContainer, new
-				{
-					verb = verb,
-					objectType = objectType,
-					activityExtensions = dic
-				});
+				}*/
+				
+				
+				//ici 
+				
+				
 				// plusieurs types d'indices
 				if (attempt == 2)
 				{

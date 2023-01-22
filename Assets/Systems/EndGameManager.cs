@@ -103,8 +103,9 @@ public class EndGameManager : FSystem {
 		extActi.Add("number", UISystem.level);
 		Dictionary<string, string> extResu = new Dictionary<string, string>();
 		extResu.Add("attempt", UISystem.attempt.ToString());
-		int success = 0;
-		int sc = -1;
+		//int success = 0;
+		//int sc = -1;
+		//int completed = 0;
 		////////////////////////
 		
 		
@@ -130,6 +131,22 @@ public class EndGameManager : FSystem {
 			endPanel.GetComponent<AudioSource>().clip = Resources.Load("Sound/LoseSound") as AudioClip;
 			endPanel.GetComponent<AudioSource>().loop = true;
 			endPanel.GetComponent<AudioSource>().Play();
+			//xAPI statement
+			GameObjectManager.addComponent<ActionPerformedForLRS>(f_requireEndPanel.First().GetComponent<NewEnd>().gameObject, new
+			{
+				verb =  UISystem.verb,
+				objectType =  UISystem.objectType,
+				result = true,
+				completed =0,
+				success = 0,
+				response = UISystem.allActionExecuted,
+				score = -1,
+				activityExtensions = extActi,
+				resultExtensions = extResu
+				
+			});
+			/////////////////
+			
 		}
 		else if (f_requireEndPanel.First().GetComponent<NewEnd>().endType == NewEnd.Win)
 		{
@@ -137,10 +154,23 @@ public class EndGameManager : FSystem {
 			Transform verticalCanvas = endPanel.transform.Find("VerticalCanvas");
 			verticalCanvas.GetComponentInChildren<TextMeshProUGUI>().text = "Bravo vous avez gagné !\nScore: " + score;
 			setScoreStars(score, verticalCanvas.Find("ScoreCanvas"));
+			
 			//xAPI statement
-			sc = score;
-			success = 1;
-			///////
+			GameObjectManager.addComponent<ActionPerformedForLRS>(f_requireEndPanel.First().GetComponent<NewEnd>().gameObject, new
+			{
+				verb =  UISystem.verb,
+				objectType =  UISystem.objectType,
+				result = true,
+				completed =1,
+				success =1,
+				response = UISystem.allActionExecuted,
+				score = score,
+				activityExtensions = extActi,
+				resultExtensions = extResu
+				
+			});
+			/////////////////
+			
 			endPanel.GetComponent<AudioSource>().clip = Resources.Load("Sound/VictorySound") as AudioClip;
 			endPanel.GetComponent<AudioSource>().loop = false;
 			endPanel.GetComponent<AudioSource>().Play();
@@ -175,21 +205,7 @@ public class EndGameManager : FSystem {
 			endPanel.GetComponent<AudioSource>().loop = true;
 			endPanel.GetComponent<AudioSource>().Play();
 		}
-		//xAPI statement
-		GameObjectManager.addComponent<ActionPerformedForLRS>(unused, new
-		{
-			verb =  UISystem.verb,
-			objectType =  UISystem.objectType,
-			result = true,
-			completed =1,
-			success =success,
-			response = UISystem.allActionExecuted,
-			score = sc,
-			activityExtensions = extActi,
-			resultExtensions = extResu
-				
-		});
-		/////////////////
+	
 
 		// Rajouter ici un nouveau newEnd .endType pour le cas où plus de vie.
 	}
@@ -237,10 +253,19 @@ public class EndGameManager : FSystem {
 	// Cancel End (see ReloadState button in editor)
 	public void cancelEnd()
 	{
+		Debug.Log("dans canceeeeeel end");
 		foreach (GameObject endGO in f_requireEndPanel)
+		{
 			// in case of several ends pop in the same time (for instance exit reached and detected)
 			foreach (NewEnd end in endGO.GetComponents<NewEnd>())
 				GameObjectManager.removeComponent(end);
+
+			//xAPI statement
+			//(utile pour le niveau 10 lorsque le robot rentre en collision et qu'on veut annuler le dernier essai)
+			UISystem.allActionExecuted = "";
+			////////
+		}
+			
 	}
 
 	private IEnumerator delayNoMoreAttemptDetection()

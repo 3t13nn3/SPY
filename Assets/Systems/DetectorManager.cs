@@ -52,7 +52,7 @@ public class DetectorManager : FSystem {
                     //xAPI statement
                     GameObjectManager.addComponent<ActionPerformedForLRS>(MainLoop.instance.gameObject, new
                     {
-                        verb = "collided",
+                        verb = "collided ",
                         objectType = "detectionCell",
                     });
                     //////////////

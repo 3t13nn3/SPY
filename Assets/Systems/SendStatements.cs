@@ -52,21 +52,24 @@ public class SendStatements : FSystem {
                     //If no result info filled
                     if (!ap.result)
                     {
-                        Debug.Log(ap.verb);
-                        Debug.Log(ap.objectType);
-                        Debug.Log(ap.activityExtensions);
+                        /*Debug.Log("verb : " + ap.verb);
+                        Debug.Log("object Type : " + ap.objectType);
+                        Debug.Log("activity extensions : " + ap.activityExtensions);
                         Debug.Log("cas 1");
-                        foreach (KeyValuePair<string, string> entry in ap.activityExtensions)
-                            Debug.Log(entry);
+                        if (ap.activityExtensions != null)
+                        {
+                            foreach (KeyValuePair<string, string> entry in ap.activityExtensions)
+                                Debug.Log(entry);
+                        }*/
                         GBL_Interface.SendStatement(ap.verb, ap.objectType, ap.activityExtensions);
                         
                     }
                     else
                     {
-                        Debug.Log(ap.verb);
+                        /*Debug.Log(ap.verb);
                         Debug.Log(ap.objectType);
                         Debug.Log(ap.activityExtensions);
-                        Debug.Log("cas 2");
+                        Debug.Log("cas 2");*/
                         bool? completed = null, success = null;
 
                         if (ap.completed > 0)
