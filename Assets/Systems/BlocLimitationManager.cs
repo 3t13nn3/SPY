@@ -67,6 +67,8 @@ public class BlocLimitationManager : FSystem
 				go.GetComponent<LibraryItemRef>().linkedTo = getLibraryItemByName(go.GetComponent<BaseCaptor>().captorType.ToString());
 			else if (go.GetComponent<BaseOperator>())
 				go.GetComponent<LibraryItemRef>().linkedTo = getLibraryItemByName(go.GetComponent<BaseOperator>().operatorType.ToString());
+			else if (go.GetComponent<BaseVariable>())
+				go.GetComponent<LibraryItemRef>().linkedTo = getLibraryItemByName(go.GetComponent<BaseVariable>().captorType.ToString());
 			else if (go.GetComponent<WhileControl>())
 				go.GetComponent<LibraryItemRef>().linkedTo = getLibraryItemByName("While");
 			else if (go.GetComponent<ForeverControl>())
@@ -88,9 +90,9 @@ public class BlocLimitationManager : FSystem
 		return null;
 	}
 
-	// Met à jour la limite du nombre de fois où l'on peut utiliser un bloc (si il y a une limite)
-	// Le désactive si la limite est atteinte
-	// Met à jour le compteur
+	// Met ï¿½ jour la limite du nombre de fois oï¿½ l'on peut utiliser un bloc (si il y a une limite)
+	// Le dï¿½sactive si la limite est atteinte
+	// Met ï¿½ jour le compteur
 	private void updateBlocLimit(GameObject draggableGO)
 	{
 		if (gameData.actionBlockLimit.ContainsKey(draggableGO.name))
