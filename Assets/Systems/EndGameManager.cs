@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using System.IO;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// This system check if the end of the level is reached and display end panel accordingly
@@ -98,17 +99,18 @@ public class EndGameManager : FSystem {
 		// display end panel (we need immediate enabling)
 		endPanel.transform.parent.gameObject.SetActive(true);
 		
+		//trace level duration 
+		TimerSystem.pauseTimer();
+
 		//xAPI statement
 		Dictionary<string, string> extActi = new Dictionary<string, string>();
 		extActi.Add("number", UISystem.level);
 		Dictionary<string, string> extResu = new Dictionary<string, string>();
-		extResu.Add("attempt", UISystem.attempt.ToString());
-		//int success = 0;
-		//int sc = -1;
-		//int completed = 0;
-		////////////////////////
+		extResu.Add("attempt", gameData.totalExecute.ToString());
+		extResu.Add("duration", TimerSystem.duration.ToString());       
 		
 		
+
 		// Get the first end that occurs
 		if (f_requireEndPanel.First().GetComponent<NewEnd>().endType == NewEnd.Detected)
 		{
@@ -120,6 +122,14 @@ public class EndGameManager : FSystem {
 			endPanel.GetComponent<AudioSource>().clip = Resources.Load("Sound/LoseSound") as AudioClip;
 			endPanel.GetComponent<AudioSource>().loop = true;
 			endPanel.GetComponent<AudioSource>().Play();
+			//xAPI type de fin de niveau 
+			GameObjectManager.addComponent<ActionPerformedForLRS>(f_requireEndPanel.First().GetComponent<NewEnd>().gameObject, new
+			{
+				verb =  "endedType",
+				objectType =  "detectionCell",
+				activityExtensions = extActi,
+			});
+		
 		}
 		else if (f_requireEndPanel.First().GetComponent<NewEnd>().endType == NewEnd.Dead)
 		{
@@ -131,19 +141,13 @@ public class EndGameManager : FSystem {
 			endPanel.GetComponent<AudioSource>().clip = Resources.Load("Sound/LoseSound") as AudioClip;
 			endPanel.GetComponent<AudioSource>().loop = true;
 			endPanel.GetComponent<AudioSource>().Play();
-			//xAPI statement
+			////xAPI type de fin de niveau 
 			GameObjectManager.addComponent<ActionPerformedForLRS>(f_requireEndPanel.First().GetComponent<NewEnd>().gameObject, new
 			{
-				verb =  UISystem.verb,
-				objectType =  UISystem.objectType,
-				result = true,
-				completed =0,
-				success = 0,
-				response = UISystem.allActionExecuted,
-				score = -1,
-				activityExtensions = extActi,
-				resultExtensions = extResu
-				
+				verb =  "endedType",
+				objectType =  "death",
+				activityExtensions = extActi
+
 			});
 			/////////////////
 			
@@ -153,9 +157,9 @@ public class EndGameManager : FSystem {
 			int score = (10000 / (gameData.totalActionBlocUsed + 1) + 5000 / (gameData.totalStep + 1) + 6000 / (gameData.totalExecute + 1) + 5000 * gameData.totalCoin);
 			Transform verticalCanvas = endPanel.transform.Find("VerticalCanvas");
 			verticalCanvas.GetComponentInChildren<TextMeshProUGUI>().text = "Bravo vous avez gagné !\nScore: " + score;
-			setScoreStars(score, verticalCanvas.Find("ScoreCanvas"));
-			
-			//xAPI statement
+			int nb_star = setScoreStars(score, verticalCanvas.Find("ScoreCanvas"));
+			extResu.Add("star", nb_star.ToString());
+			//xAPI resultat du niveau 
 			GameObjectManager.addComponent<ActionPerformedForLRS>(f_requireEndPanel.First().GetComponent<NewEnd>().gameObject, new
 			{
 				verb =  UISystem.verb,
@@ -163,14 +167,23 @@ public class EndGameManager : FSystem {
 				result = true,
 				completed =1,
 				success =1,
-				response = UISystem.allActionExecuted,
+				response = gameData.allActionExecuted,
 				score = score,
 				activityExtensions = extActi,
 				resultExtensions = extResu
 				
 			});
+			//xAPI type de fin de niveau 
+			GameObjectManager.addComponent<ActionPerformedForLRS>(f_requireEndPanel.First().GetComponent<NewEnd>().gameObject, new
+			{
+				verb =  "endedType",
+				objectType =  "victory",
+				activityExtensions = extActi
+
+			});
 			/////////////////
 			
+
 			endPanel.GetComponent<AudioSource>().clip = Resources.Load("Sound/VictorySound") as AudioClip;
 			endPanel.GetComponent<AudioSource>().loop = false;
 			endPanel.GetComponent<AudioSource>().Play();
@@ -194,6 +207,16 @@ public class EndGameManager : FSystem {
 			endPanel.GetComponent<AudioSource>().clip = Resources.Load("Sound/LoseSound") as AudioClip;
 			endPanel.GetComponent<AudioSource>().loop = true;
 			endPanel.GetComponent<AudioSource>().Play();
+			////xAPI type de fin de niveau 
+			GameObjectManager.addComponent<ActionPerformedForLRS>(f_requireEndPanel.First().GetComponent<NewEnd>().gameObject, new
+			{
+				verb =  "endedType",
+				objectType =  "badCondition",
+				activityExtensions = extActi
+
+			});
+			/////////////////
+			
 		} else if (f_requireEndPanel.First().GetComponent<NewEnd>().endType == NewEnd.NoMoreAttempt)
 		{
 			endPanel.transform.Find("VerticalCanvas").GetComponentInChildren<TextMeshProUGUI>().text = "Vous n'avez plus d'exécution disponible. Essayez de résoudre ce niveau en moins de coup";
@@ -204,6 +227,15 @@ public class EndGameManager : FSystem {
 			endPanel.GetComponent<AudioSource>().clip = Resources.Load("Sound/LoseSound") as AudioClip;
 			endPanel.GetComponent<AudioSource>().loop = true;
 			endPanel.GetComponent<AudioSource>().Play();
+			////xAPI type de fin de niveau 
+			GameObjectManager.addComponent<ActionPerformedForLRS>(f_requireEndPanel.First().GetComponent<NewEnd>().gameObject, new
+			{
+				verb =  "endedType",
+				objectType =  "noMoreAttempt",
+				activityExtensions = extActi
+
+			});
+			/////////////////
 		}
 	
 
@@ -211,7 +243,7 @@ public class EndGameManager : FSystem {
 	}
 
 	// Gére le nombre d'étoile à afficher selon le score obtenue
-	private void setScoreStars(int score, Transform scoreCanvas)
+	private int setScoreStars(int score, Transform scoreCanvas)
 	{
 		// Détermine le nombre d'étoile à afficher
 		int scoredStars = 0;
@@ -248,12 +280,13 @@ public class EndGameManager : FSystem {
 			PlayerPrefs.SetInt(gameData.levelToLoad.Item1 + Path.DirectorySeparatorChar + gameData.levelToLoad.Item2 + gameData.scoreKey, scoredStars);
 			PlayerPrefs.Save();
 		}
+
+		return scoredStars;
 	}
 
 	// Cancel End (see ReloadState button in editor)
 	public void cancelEnd()
 	{
-		Debug.Log("dans canceeeeeel end");
 		foreach (GameObject endGO in f_requireEndPanel)
 		{
 			// in case of several ends pop in the same time (for instance exit reached and detected)
@@ -261,8 +294,8 @@ public class EndGameManager : FSystem {
 				GameObjectManager.removeComponent(end);
 
 			//xAPI statement
-			//(utile pour le niveau 10 lorsque le robot rentre en collision et qu'on veut annuler le dernier essai)
-			UISystem.allActionExecuted = "";
+			//(utile lorqu'on veut annuler le dernier essai)
+			gameData.allActionExecuted = gameData.allActionExecuted.TrimEnd(gameData.actionExecutedPerAttempt.ToCharArray());
 			////////
 		}
 			

@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 public class SendStatements : FSystem {
 
     private Family f_actionForLRS = FamilyManager.getFamily(new AllOfComponents(typeof(ActionPerformedForLRS)));
-
+  
     public static SendStatements instance;
 
     public SendStatements()
@@ -38,6 +38,7 @@ public class SendStatements : FSystem {
 
 	// Use to process your families.
 	protected override void onProcess(int familiesUpdateCount) {
+        
         // Do not use callbacks because in case in the same frame actions are removed on a GO and another component is added in another system, family will not trigger again callback because component will not be processed
         foreach (GameObject go in f_actionForLRS)
         {
@@ -61,6 +62,7 @@ public class SendStatements : FSystem {
                             foreach (KeyValuePair<string, string> entry in ap.activityExtensions)
                                 Debug.Log(entry);
                         }*/
+                        Debug.Log("object type : "+ap.objectType);
                         GBL_Interface.SendStatement(ap.verb, ap.objectType, ap.activityExtensions);
                         
                     }
@@ -93,7 +95,7 @@ public class SendStatements : FSystem {
                 GameObjectManager.removeComponent(listAP[i]);
             }
         }
-	}
+    }
 
     /*public static void testSendStatement()
     {

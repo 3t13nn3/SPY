@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using FYFY;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 
 /// <summary>
@@ -241,11 +242,22 @@ public class CurrentActionExecutor : FSystem {
 
 	private void checkTrap(int x, int z){
 		Debug.Log("check trap in  x "+x + "z " + z);
+		Dictionary<string, string> extActi = new Dictionary<string, string>();
+		extActi.Add("number", UISystem.level);
 		foreach( GameObject go in f_trap){
 			Debug.Log("trap exist ? ");
 			Debug.Log(" x " + go.GetComponent<Position>().x + " y " + go.GetComponent<Position>().y);
-			if(go.GetComponent<Position>().x == x && go.GetComponent<Position>().y == z)
+			if (go.GetComponent<Position>().x == x && go.GetComponent<Position>().y == z)
+			{
 				lose_healthPoint();
+				//xAPI tracer quand un robot perd un point de vie 
+				GameObjectManager.addComponent<ActionPerformedForLRS>(go, new
+				{
+					verb =  "losed",
+					objectType =  "healthPoint",
+					activityExtensions = extActi
+				});
+			}
 		}
 	}
 }

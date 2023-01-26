@@ -1,48 +1,75 @@
 {
     "activity": {
-        "console": {
+        "badcondition": {
             "description": {
-                "en-US": ""
+                "en-US": "player has incorrectly completed a condition"
             },
-            "id": "https://lrsmocah.lip6.fr/data/xapi/activity-types/console",
+            "id": "https://lrsmocah.lip6.fr/data/xapi/activity-types/badcondition",
             "name": {
-                "en-US": "console"
+                "en-US": "badcondition"
+            }
+        },
+        "death": {
+            "description": {
+                "en-US": "robot is dead "
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/activity-types/death",
+            "name": {
+                "en-US": "death"
             }
         },
         "detectioncell": {
             "description": {
-                "en-US": "robot collided with detection cell (end game)"
+                "en-US": "robot collided with detection cell (end type)"
             },
             "id": "https://lrsmocah.lip6.fr/data/xapi/activity-types/detectioncell",
             "name": {
                 "en-US": "detectioncell"
             }
         },
-        "dialogbox": {
+        "for": {
             "description": {
-                "en-US": ""
+                "en-US": "\"for\" concept"
             },
-            "id": "https://lrsmocah.lip6.fr/data/xapi/activity-types/dialogbox",
+            "id": "https://lrsmocah.lip6.fr/data/xapi/activity-types/for",
             "name": {
-                "en-US": "dialogbox"
+                "en-US": "for"
             }
         },
-        "door": {
+        "healthpoint": {
             "description": {
-                "en-US": ""
+                "en-US": "health point losed"
             },
-            "id": "https://lrsmocah.lip6.fr/data/xapi/activity-types/door",
+            "id": "https://lrsmocah.lip6.fr/data/xapi/activity-types/healthpoint",
             "name": {
-                "en-US": "door"
+                "en-US": "healthpoint"
             }
         },
         "hint": {
             "description": {
-                "en-US": "(indice)"
+                "en-US": "hint requested "
             },
             "id": "https://lrsmocah.lip6.fr/data/xapi/activity-types/hint",
             "name": {
                 "en-US": "hint"
+            }
+        },
+        "if": {
+            "description": {
+                "en-US": "\"if\" concept"
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/activity-types/if",
+            "name": {
+                "en-US": "if"
+            }
+        },
+        "ifelse": {
+            "description": {
+                "en-US": "\"ifelse\" concept"
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/activity-types/ifelse",
+            "name": {
+                "en-US": "ifelse"
             }
         },
         "level ": {
@@ -54,13 +81,40 @@
                 "en-US": "level "
             }
         },
-        "robot": {
+        "nomoreattempt": {
             "description": {
-                "en-US": ""
+                "en-US": "player has exhausted all his attempts "
             },
-            "id": "https://lrsmocah.lip6.fr/data/xapi/activity-types/robot",
+            "id": "https://lrsmocah.lip6.fr/data/xapi/activity-types/nomoreattempt",
             "name": {
-                "en-US": "robot"
+                "en-US": "nomoreattempt"
+            }
+        },
+        "session": {
+            "description": {
+                "en-US": "player session"
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/activity-types/session",
+            "name": {
+                "en-US": "session"
+            }
+        },
+        "victory": {
+            "description": {
+                "en-US": "player win the level"
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/activity-types/victory",
+            "name": {
+                "en-US": "victory"
+            }
+        },
+        "while": {
+            "description": {
+                "en-US": "\"while\" concept"
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/activity-types/while",
+            "name": {
+                "en-US": "while"
             }
         }
     },
@@ -72,6 +126,15 @@
             "id": "https://lrsmocah.lip6.fr/data/xapi/extensions/attempt",
             "name": {
                 "en-US": "attempt"
+            }
+        },
+        "duration": {
+            "description": {
+                "en-US": "duration session/level"
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/extensions/duration",
+            "name": {
+                "en-US": "duration"
             }
         },
         "number": {
@@ -90,6 +153,15 @@
             "id": "https://lrsmocah.lip6.fr/data/xapi/extensions/script",
             "name": {
                 "en-US": "script"
+            }
+        },
+        "star": {
+            "description": {
+                "en-US": "indicate number of star obtained"
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/extensions/star",
+            "name": {
+                "en-US": "star"
             }
         },
         "type": {
@@ -112,24 +184,6 @@
         }
     },
     "verb": {
-        "activated": {
-            "description": {
-                "en-US": ""
-            },
-            "id": "https://lrsmocah.lip6.fr/data/xapi/verbs/activated",
-            "name": {
-                "en-US": "activated"
-            }
-        },
-        "closed": {
-            "description": {
-                "en-US": ""
-            },
-            "id": "https://lrsmocah.lip6.fr/data/xapi/verbs/closed",
-            "name": {
-                "en-US": "closed"
-            }
-        },
         "collided ": {
             "description": {
                 "en-US": "indicate that the learner collided a detection cell"
@@ -139,22 +193,40 @@
                 "en-US": "collided "
             }
         },
-        "monitored ": {
+        "endedtype": {
             "description": {
-                "en-US": ""
+                "en-US": "type of end of a level"
             },
-            "id": "https://lrsmocah.lip6.fr/data/xapi/verbs/monitored",
+            "id": "https://lrsmocah.lip6.fr/data/xapi/activity-types/endedtype",
             "name": {
-                "en-US": "monitored "
+                "en-US": "endedtype"
             }
         },
-        "opened": {
+        "exited": {
             "description": {
-                "en-US": ""
+                "en-US": "player quits the game"
             },
-            "id": "https://lrsmocah.lip6.fr/data/xapi/verbs/opened",
+            "id": "https://lrsmocah.lip6.fr/data/xapi/verbs/exited",
             "name": {
-                "en-US": "opened"
+                "en-US": "exited"
+            }
+        },
+        "learned": {
+            "description": {
+                "en-US": "indicates the concept being learned"
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/verbs/learned",
+            "name": {
+                "en-US": "learned"
+            }
+        },
+        "losed": {
+            "description": {
+                "en-US": "indicate that the learner losed a healthpoint"
+            },
+            "id": "https://lrsmocah.lip6.fr/data/xapi/verbs/losed",
+            "name": {
+                "en-US": "losed"
             }
         },
         "played": {
@@ -173,15 +245,6 @@
             "id": "https://lrsmocah.lip6.fr/data/xapi/verbs/requested",
             "name": {
                 "en-US": "requested"
-            }
-        },
-        "waited": {
-            "description": {
-                "en-US": ""
-            },
-            "id": "https://lrsmocah.lip6.fr/data/xapi/verbs/waited",
-            "name": {
-                "en-US": "waited"
             }
         }
     }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TMPro;
 using System.Collections;
 using System;
+using System.Threading;
 
 /// <summary>
 /// Manage InGame UI (Play/Pause/Stop, reset, go back to main menu...)
@@ -44,11 +45,10 @@ public class UISystem : FSystem {
 	public GameObject libraryPanel;
 	
 	//xAPI statement
-	public static string allActionExecuted = "";
-	public static string actionExecuted = "";
+	//public static string allActionExecuted = "";
+	//public static string actionExecuted = "";
 	public static string objectType = "level";
 	public static string verb = "played";
-	public static int attempt = 0;
 	public static string level;
 	/////////
 	
@@ -254,8 +254,11 @@ public class UISystem : FSystem {
 		gameData.totalExecute = 0;
 		gameData.totalCoin = 0;
 		gameData.levelToLoadScore = null;
+		gameData.actionExecutedPerAttempt = "";
+		gameData.allActionExecuted = "";
 
 		gameData.healthPoints = 3;
+	
 
 		gameData.dialogMessage = new List<(string, float, string, float)>();
 		resetGameData();
@@ -315,28 +318,6 @@ public class UISystem : FSystem {
 			// Si on a bien trouvé un container associé
 			if (editableContainer != null)
 			{
-				//xAPI statement
-				//string actionExecuted = "";
-				actionExecuted = "";
-				attempt += 1;
-				/*foreach (BasicAction action in editableContainer.gameObject.GetComponentsInChildren<BasicAction>())
-				{
-					actionExecuted = actionExecuted + "-" + action.actionType;
-					allActionExecuted = allActionExecuted + "-" + action.actionType;
-				}*/
-				
-				
-				//ici 
-				
-				
-				// plusieurs types d'indices
-				if (attempt == 2)
-				{
-					IndiceSystem.showSecondInd = true; //si le joueur ne termine pas le niveau après deux tentatives
-					//on débloque l'indice de niveau 2
-				}
-				//////////////////////////////////
-				
 				// we fill the executable container with actions of the editable container
 				EditingUtility.fillExecutablePanel(editableContainer, executableContainer, robot.tag);
 				// bind all child
@@ -366,11 +347,11 @@ public class UISystem : FSystem {
         if (menuEchap.activeInHierarchy)
         {
 			menuEchap.SetActive(false);
-		}// Et inversement
+        }// Et inversement
         else
         {
 			menuEchap.SetActive(true);
-		}
+        }
     }
 
 	// see inputFiels in ForBloc prefab in inspector

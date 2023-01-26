@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -26,4 +27,7 @@ public class GameData : MonoBehaviour {
 	/// On récupére la liste des indices de chaque niveau à partir du fichier xml 
 	public List<(string,float)>  indiceMessage; //indice of the level
 	
+	//On sauvegarde le script de chaque tentative (xAPI)
+	public string actionExecutedPerAttempt = "";
+	public string allActionExecuted = "";
 }
