@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using TMPro;
 using System.Collections;
 using System;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.IO;
 
 /// <summary>
 /// Manage InGame UI (Play/Pause/Stop, reset, go back to main menu...)
@@ -259,16 +262,81 @@ public class UISystem : FSystem {
 
 		gameData.dialogMessage = new List<(string, float, string, float)>();
 		resetGameData();
+	}
 
+	private int computeNextLevelIndex(int currentLevelIndex)
+	{
+		int getLevelNumber(string s)
+		{
+			string pattern = @"\d+";
+			Match match = Regex.Match(s, pattern);
+			return int.Parse(match.Value);
+		}
+
+		List<string> levelLists = gameData.levelList[gameData.levelToLoad.Item1];
+		int currentLevelNumber = getLevelNumber(levelLists[currentLevelIndex].Split("Niveau")[1]);
+		int currentDifficulty = 3;
+		if (levelLists[currentLevelIndex].Contains("_"))
+			currentDifficulty = int.Parse(levelLists[currentLevelIndex].Split("_")[1].First().ToString());
+		int nextLevelNumber = currentLevelNumber + 1;
 		
-}
+		var targetLevels = levelLists
+			.Select((l, i) => new { LevelName = l, Index = i })
+			.Where(l => l.LevelName.Contains("Niveau"+nextLevelNumber.ToString()))
+			.ToList();
+		// Debug.Log("target levels :");
+		// foreach(var level in targetLevels)
+		// {
+		// 	Debug.Log(level);
+		// }
+		if (targetLevels.Count == 0)
+			return currentLevelIndex + 1;
+		else if (targetLevels.Count == 1)
+			return targetLevels[0].Index;
+		else
+		{
+			List<string> previousLevelNumbers = new List<string>();
+			for (int i = Math.Max(currentLevelNumber - 2, 1); i <= currentLevelNumber; i++)
+				previousLevelNumbers.Add("Niveau"+i.ToString());
+			// Debug.Log("previous :");
+			// foreach(string level in previousLevelNumbers)
+			// {
+			// 	Debug.Log(level);
+			// }
+			Dictionary<int, int> stars = new Dictionary<int, int>();
+			for (int i = 0; i < levelLists.Count; i++)
+			{
+				if (previousLevelNumbers.Any(s => levelLists[i].Contains(s)) &&
+					PlayerPrefs.GetInt(gameData.levelToLoad.Item1 + Path.DirectorySeparatorChar + i + gameData.scoreKey, 0) != 0)
+				{
+					stars[getLevelNumber(levelLists[i].Split("Niveau")[1])] = PlayerPrefs.GetInt(gameData.levelToLoad.Item1 + Path.DirectorySeparatorChar + i + gameData.scoreKey);
+				}
+			}
+			
+			float avgStars = 0.0f;
+			foreach (KeyValuePair<int, int> item in stars)
+				avgStars += item.Value;
+			avgStars /= 3;
+			
+			int nextLevelIndex = 0;
+			foreach(var level in targetLevels)
+			{
+				if (avgStars >= int.Parse(level.LevelName.Split("_")[1].First().ToString()))
+					nextLevelIndex = level.Index;
+			}
+			return nextLevelIndex;
+		}
+	}
 
 
 	// See NextLevel button in editor
 	// On charge la scéne suivante
 	public void nextLevel(){
-		// On imcrémente le numéro du niveau
-		gameData.levelToLoad.Item2++;
+		// On cherche le prochain niveau à lancer
+		int currentLevelIndex = gameData.levelToLoad.Item2;
+		// Debug.Log("next level : " + computeNextLevelIndex(currentLevelIndex));
+		gameData.levelToLoad.Item2 = computeNextLevelIndex(currentLevelIndex);
+		
 		// On efface l'historique
 		gameData.actionsHistory = null;
 		// On recharge la scéne (mais avec le nouveau numéro de niveau)

@@ -6,6 +6,8 @@ using System.IO;
 using TMPro;
 using System.Xml;
 using System;
+using System.Text.RegularExpressions;
+using System.Linq;
 using Object = UnityEngine.Object;
 
 /// <summary>
@@ -47,8 +49,10 @@ public class TitleScreenSystem : FSystem {
 			//paramFunction();
 			gameData.levelList["Campagne infiltration"] = new List<string>();
 			for (int i = 1; i <= 20; i++)
+			{
 				gameData.levelList["Campagne infiltration"].Add(Application.streamingAssetsPath + Path.DirectorySeparatorChar + "Levels" +
-			Path.DirectorySeparatorChar + "Campagne infiltration" + Path.DirectorySeparatorChar +"Niveau" + i + ".xml");
+				Path.DirectorySeparatorChar + "Campagne infiltration" + Path.DirectorySeparatorChar + "Niveau" + i + ".xml");
+			}
 			// Hide Competence button
 			GameObjectManager.setGameObjectState(compLevelButton, false);
 			ParamCompetenceSystem.instance.Pause = true;
@@ -61,7 +65,7 @@ public class TitleScreenSystem : FSystem {
 			foreach (string directory in Directory.GetDirectories(levelsPath))
 			{
 				levels = readScenario(directory);
-				if (levels != null)
+                if (levels != null)
 					gameData.levelList[Path.GetFileName(directory)] = levels; //key = directory name
 			}
 		}
@@ -90,13 +94,15 @@ public class TitleScreenSystem : FSystem {
 	}
 
 	private List<string> readScenario(string repositoryPath) {
-		if (File.Exists(repositoryPath + Path.DirectorySeparatorChar + "Scenario.xml")) {
+        // repositoryPath + Path.DirectorySeparatorChar -> /path_to_SPY_project/Assets/StreamingAssets/Levels/Campagne infiltration/
+        if (File.Exists(repositoryPath + Path.DirectorySeparatorChar + "Scenario.xml")) {
 			List<string> levelList = new List<string>();
 			XmlDocument doc = new XmlDocument();
 			doc.Load(repositoryPath + Path.DirectorySeparatorChar + "Scenario.xml");
 			XmlNode root = doc.ChildNodes[1]; //root = <scenario/>
 			foreach (XmlNode child in root.ChildNodes) {
-				if (child.Name.Equals("level")) {
+                // (child.Attributes.GetNamedItem("name").Value) -> Niveau1.xml, Niveau2.xml, etc...
+                if (child.Name.Equals("level")) {
 					levelList.Add(repositoryPath + Path.DirectorySeparatorChar + (child.Attributes.GetNamedItem("name").Value));
 				}
 			}
@@ -125,7 +131,33 @@ public class TitleScreenSystem : FSystem {
 		}
 	}
 
-	private void showLevels(GameObject levelDirectory) {
+	private int getLevelNumber(string s)
+	{
+		string pattern = @"\d+";
+		Match match = Regex.Match(s, pattern);
+		return int.Parse(match.Value);
+	}
+
+	private void updateProgress()
+	{
+		List<string> levelLists = gameData.levelList[gameData.levelToLoad.Item1];
+		int lastLevel = 0;
+		for (int i = 0; i < levelLists.Count; i++)
+		{
+			if (PlayerPrefs.GetInt(gameData.levelToLoad.Item1 + Path.DirectorySeparatorChar + i + gameData.scoreKey, 0) != 0)
+				lastLevel = getLevelNumber(levelLists[i]);
+		}
+		PlayerPrefs.SetInt(gameData.levelToLoad.Item1, lastLevel);
+	}
+
+    /*
+	 * PlayerPrefs.GetInt(directoryName, 0) -> current last achived level
+	 * PlayerPrefs.GetInt(directoryName + Path.DirectorySeparatorChar + i + gameData.scoreKey, 0) -> nb of stars
+	 */
+    private void showLevels(GameObject levelDirectory) {
+
+		updateProgress();
+
 		//show/hide levels
 		foreach (GameObject directory in levelButtons.Keys) {
 			//hide level directories
@@ -134,21 +166,63 @@ public class TitleScreenSystem : FSystem {
 			if (directory.Equals(levelDirectory)) {
 				for (int i = 0; i < levelButtons[directory].Count; i++) {
 					GameObjectManager.setGameObjectState(levelButtons[directory][i], true);
+					string directoryName = levelDirectory.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text; // Compagne d'infiltration
 
-					string directoryName = levelDirectory.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text;
-					levelButtons[directory][i].transform.Find("Button").GetComponent<Button>().interactable = true;
-					/*
 					//locked levels
-					if (i <= PlayerPrefs.GetInt(directoryName, 0)) //by default first level of directory is the only unlocked level of directory
-						levelButtons[directory][i].transform.Find("Button").GetComponent<Button>().interactable = true;
-					//unlocked levels
-					else 
-						levelButtons[directory][i].transform.Find("Button").GetComponent<Button>().interactable = false;
-					*/
-
+					// Debug.Log(i + ", " + gameData.levelList[directoryName][i]);
+					// Debug.Log(this.getLevelNumber(gameData.levelList[directoryName][i].Split("Niveau")[1]) + ", " + (PlayerPrefs.GetInt(directoryName, 0) + 1));
+					if (this.getLevelNumber(gameData.levelList[directoryName][i].Split("Niveau")[1]) <= PlayerPrefs.GetInt(directoryName, 0) + 1) //by default first level of directory is the only unlocked level of directory
+                    {
+						string levelName = gameData.levelList[directoryName][i];
+						// if the current level contains multiples difficulties and the difficulty is higher than 1
+						if (levelName.Split("_").Length > 1) 
+						{
+							int levelNumber = this.getLevelNumber(levelName.Split("_")[0]);
+							int lastLevelDifficulty = 0;
+							float avgStars = 0.0f;
+							// calculate the average of stars obtained in past three levels
+							for (int pastLevel = levelNumber - 3; pastLevel < levelNumber; pastLevel++)
+							{
+								float starsOfLevel = 0.0f;
+								for (int j = 0; j < levelButtons[directory].Count; j++)
+								{
+									int currentLevelNumber = this.getLevelNumber(gameData.levelList[directoryName][j].Split("Niveau")[1]);
+									if (currentLevelNumber > pastLevel)
+										break;
+									if (pastLevel == currentLevelNumber && PlayerPrefs.GetInt(directoryName + Path.DirectorySeparatorChar + j + gameData.scoreKey, 0) != 0) 
+									{
+										starsOfLevel = PlayerPrefs.GetInt(directoryName + Path.DirectorySeparatorChar + j + gameData.scoreKey, 0);
+										if (gameData.levelList[directoryName][j].Contains("_")) 
+											lastLevelDifficulty = int.Parse(gameData.levelList[directoryName][j].Split("_")[1].First().ToString());
+										else 
+											lastLevelDifficulty = 3;
+									}
+								}
+								avgStars += starsOfLevel;
+							}
+							avgStars /= 3;
+							
+							int levelDifficulty = int.Parse(levelName.Split("_")[1].First().ToString());
+							if (avgStars >= levelDifficulty && lastLevelDifficulty + 1 >= levelDifficulty)
+								levelButtons[directory][i].transform.Find("Button").GetComponent<Button>().interactable = true;
+							else
+								levelButtons[directory][i].transform.Find("Button").GetComponent<Button>().interactable = false;
+						} 
+						// in the other case just simply activate this level
+						else
+						{
+							levelButtons[directory][i].transform.Find("Button").GetComponent<Button>().interactable = true;
+						}
+                    } 
+					// unlocked levels
+					else
+                        levelButtons[directory][i].transform.Find("Button").GetComponent<Button>().interactable = false;
+					
 					//scores
 					int scoredStars = PlayerPrefs.GetInt(directoryName + Path.DirectorySeparatorChar + i + gameData.scoreKey, 0); //0 star by default
-					Transform scoreCanvas = levelButtons[directory][i].transform.Find("ScoreCanvas");
+					// Debug.Log(directoryName + Path.DirectorySeparatorChar + i + gameData.scoreKey);
+                    // Debug.Log(PlayerPrefs.GetInt(directoryName + Path.DirectorySeparatorChar + i + gameData.scoreKey, 0));
+                    Transform scoreCanvas = levelButtons[directory][i].transform.Find("ScoreCanvas");
 					for (int nbStar = 0; nbStar < 4; nbStar++) {
 						if (nbStar == scoredStars)
 							GameObjectManager.setGameObjectState(scoreCanvas.GetChild(nbStar).gameObject, true);
@@ -167,6 +241,7 @@ public class TitleScreenSystem : FSystem {
 	}
 
 	public void launchLevel(string levelDirectory, int level) {
+		Debug.Log(levelDirectory + level.ToString());
 		gameData.levelToLoad = (levelDirectory, level);
 		GameObjectManager.loadScene("MainScene");
 	}
