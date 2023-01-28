@@ -37,6 +37,9 @@ public class LevelGenerator : FSystem {
 	public GameObject canvas;
 	public GameObject buttonExecute;
 
+	//sauvegarde de tous les niveaux fait par le joueur durant sa session dans une chaîne de caractère
+	public static string levelPlayedDuringSession = ""; 
+
 	public LevelGenerator()
 	{
 		instance = this;
@@ -64,6 +67,7 @@ public class LevelGenerator : FSystem {
 			levelName.text = Path.GetFileNameWithoutExtension(gameData.levelList[gameData.levelToLoad.Item1][gameData.levelToLoad.Item2]);
 			//xAPI statement
 			UISystem.level = levelName.text;
+			levelPlayedDuringSession = levelPlayedDuringSession + "-" + levelName.text;
 			//xAPI statement
 		}
     }
@@ -85,7 +89,9 @@ public class LevelGenerator : FSystem {
 	// Read xml document and create all game objects
 	public void XmlToLevel(XmlDocument doc)
 	{
-
+		TimerSystem.resumeTimer();
+		Debug.Log("reset timer");
+		
 		gameData.totalActionBlocUsed = 0;
 		gameData.totalStep = 0;
 		gameData.totalExecute = 0;
@@ -96,7 +102,9 @@ public class LevelGenerator : FSystem {
 		map = new List<List<int>>();
 		//indice level
 		gameData.indiceMessage = new List<(string, float)>();
-		/////
+		//xAPI trace
+		gameData.allActionExecuted = "";
+		gameData.actionExecutedPerAttempt = "";
 		
 		// remove comments
 		removeComments(doc);

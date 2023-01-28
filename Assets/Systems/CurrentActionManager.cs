@@ -30,6 +30,7 @@ public class CurrentActionManager : FSystem
 	private Family f_trap = FamilyManager.getFamily(new AnyOfTags("Trap"));
 
 	public static CurrentActionManager instance;
+	private GameData gameData;
 	
 	private Dictionary<String, bool> ifWhileOpen = new Dictionary<string, bool>();
 
@@ -40,6 +41,10 @@ public class CurrentActionManager : FSystem
 
 	protected override void onStart()
 	{
+		GameObject go = GameObject.Find("GameData");
+		if (go != null)
+			gameData = go.GetComponent<GameData>();
+		
 		f_executionReady.addEntryCallback(initFirstsActions);
 		f_newStep.addEntryCallback(delegate { onNewStep(); });
 		f_editingMode.addEntryCallback(delegate {
@@ -53,6 +58,7 @@ public class CurrentActionManager : FSystem
 			foreach (GameObject robot in f_player)
 				robot.GetComponent<ScriptRef>().nbOfInactions = 0;
 		});
+		
 	}
 
 	private void initFirstsActions(GameObject go)
@@ -95,7 +101,6 @@ public class CurrentActionManager : FSystem
 		if (container.childCount > 0)
 		{
 			firstAction = getFirstActionOf(container.GetChild(0).gameObject, agent);
-			Debug.Log("call getFirstActionOf in addCurrentActionOnFirstAction" + firstAction);
 		}
 
 		if (firstAction != null)
@@ -118,12 +123,11 @@ public class CurrentActionManager : FSystem
 		{
 			
 			//xAPI
-			UISystem.allActionExecuted =
-				UISystem.allActionExecuted + '-' + action.GetComponentInChildren<BasicAction>().actionType;
-			UISystem.actionExecuted =
-				UISystem.actionExecuted + '-' + action.GetComponentInChildren<BasicAction>().actionType;
+			gameData.allActionExecuted =
+				gameData.allActionExecuted + '-' + action.GetComponentInChildren<BasicAction>().actionType;
+			gameData.actionExecutedPerAttempt =
+				gameData.actionExecutedPerAttempt + '-' + action.GetComponentInChildren<BasicAction>().actionType;
 			/////
-			Debug.Log("in getFirstActionOf " + action.GetComponentInChildren<BasicAction>().actionType);
 			return action;
 		}
 		else
@@ -135,24 +139,20 @@ public class CurrentActionManager : FSystem
 				IfElseControl ifElseCont = action.GetComponent<IfElseControl>();
 				// check if this IfControl include a child and if condition is evaluated to true
 				if (ifCont.firstChild != null && ifValid(ifCont.condition, agent)) {
-					Debug.Log("if block");
-					
-					UISystem.allActionExecuted =
-						UISystem.allActionExecuted + "-If-";
-					UISystem.actionExecuted =
-						UISystem.actionExecuted + "-If-";
-					
+					gameData.allActionExecuted = 
+						gameData.allActionExecuted + "-If-";
+					gameData.actionExecutedPerAttempt =
+						gameData.actionExecutedPerAttempt + "-If-";
 					return getFirstActionOf(ifCont.firstChild, agent);
 					
 				}
 				else if (ifElseCont &&
 				         ifElseCont.firstChild != null)
 				{
-					Debug.Log("else block");
-					UISystem.allActionExecuted =
-						UISystem.allActionExecuted + "-Else-";
-					UISystem.actionExecuted =
-						UISystem.actionExecuted + "-Else-";
+					gameData.allActionExecuted =
+						gameData.allActionExecuted + "-Else-";
+					gameData.actionExecutedPerAttempt =
+						gameData.actionExecutedPerAttempt + "-Else-";
 					return getFirstActionOf(action.GetComponent<IfElseControl>().elseFirstChild, agent);
 				}
 				else
@@ -170,18 +170,18 @@ public class CurrentActionManager : FSystem
 				if (ifValid(whileCont.condition, agent))
 				{
 					
-					Debug.Log(whileCont.GetHashCode().ToString());
 					if (!ifWhileOpen.ContainsKey(whileCont.GetHashCode().ToString()))
 						ifWhileOpen[whileCont.GetHashCode().ToString()] = false;
 					
 					if (!ifWhileOpen[whileCont.GetHashCode().ToString()])
 					{
-						UISystem.allActionExecuted =
-							UISystem.allActionExecuted + "-While-";
-						UISystem.actionExecuted =
-							UISystem.actionExecuted + "-While-";
+						gameData.allActionExecuted =
+							gameData.allActionExecuted + "-While-";
+						gameData.actionExecutedPerAttempt =
+							gameData.actionExecutedPerAttempt + "-While-";
 						ifWhileOpen[whileCont.GetHashCode().ToString()] = true;
 					}
+					
 					// get first action of its first child (could be if, for...)
 					return getFirstActionOf(whileCont.firstChild, agent);
 				}
@@ -192,10 +192,10 @@ public class CurrentActionManager : FSystem
 					{
 						ifWhileOpen[whileCont.GetHashCode().ToString()] = false;
 						/////////xAPI
-						UISystem.allActionExecuted =
-							UISystem.allActionExecuted + "-EndWhile-";
-						UISystem.actionExecuted =
-							UISystem.actionExecuted + "-EndWhile-";
+						gameData.allActionExecuted =
+							gameData.allActionExecuted + "-EndWhile-";
+						gameData.actionExecutedPerAttempt =
+							gameData.actionExecutedPerAttempt + "-EndWhile-";
 						//////////////
 					}
 					// this condition is false => get first action of next action (could be if, for...)
@@ -213,11 +213,10 @@ public class CurrentActionManager : FSystem
 					///////////xAPI 
 					if (forCont.currentFor == 0)
 					{
-						Debug.Log("we add for in getfirstaction "+ forCont.firstChild);
-						UISystem.allActionExecuted =
-							UISystem.allActionExecuted + "-For-";
-						UISystem.actionExecuted =
-							UISystem.actionExecuted + "-For-";
+						gameData.allActionExecuted =
+							gameData.allActionExecuted + "-For-";
+						gameData.actionExecutedPerAttempt =
+							gameData.actionExecutedPerAttempt + "-For-";
 					}
 					///////////
 					forCont.currentFor++;
@@ -230,11 +229,10 @@ public class CurrentActionManager : FSystem
 					if (forCont.currentFor >= forCont.nbFor)
 					{
 						///////////xAPI 
-						//Debug.Log("we add for in getfirstaction " + "Endfor");
-						UISystem.allActionExecuted =
-							UISystem.allActionExecuted + "-EndFor-";
-						UISystem.actionExecuted =
-							UISystem.actionExecuted + "-EndFor-";
+						gameData.allActionExecuted =
+							gameData.allActionExecuted + "-EndFor-";
+						gameData.actionExecutedPerAttempt =
+							gameData.actionExecutedPerAttempt + "-EndFor-";
 						///////////xAPI 
 					}
 					// this for doesn't contain action or nb iteration == 0 or end loop reached => get first action of next action (could be if, for...)
@@ -366,11 +364,9 @@ public class CurrentActionManager : FSystem
 	private void onNewStep(){
 		GameObject nextAction;
 
-	Debug.Log(" AHHHHHA Nouveau step ");
 
 		foreach(GameObject currentActionGO in f_currentActions){
 			CurrentAction currentAction = currentActionGO.GetComponent<CurrentAction>();
-			Debug.Log(" call getNextAction in onNewStep");
 
 			nextAction = getNextAction(currentActionGO, currentAction.agent);
 			// check if we reach last action of a drone
@@ -394,17 +390,15 @@ public class CurrentActionManager : FSystem
 			if (current_ba.next == null || current_ba.next.GetComponent<BasicAction>())
 			{
 				//xAPI
-				UISystem.allActionExecuted =
-					UISystem.allActionExecuted + '-' + current_ba.next.GetComponent<BasicAction>().actionType;
-				UISystem.actionExecuted =
-					UISystem.actionExecuted + '-' + current_ba.next.GetComponentInChildren<BasicAction>().actionType;
+				gameData.allActionExecuted =
+					gameData.allActionExecuted + '-' + current_ba.next.GetComponent<BasicAction>().actionType;
+				gameData.actionExecutedPerAttempt =
+					gameData.actionExecutedPerAttempt + '-' + current_ba.next.GetComponentInChildren<BasicAction>().actionType;
 				/////
-				//Debug.Log("in getNextActionOf " + current_ba.next.GetComponentInChildren<BasicAction>().actionType);
 				return current_ba.next;
 			}
 			else
 			{
-				//Debug.Log("call getFirstActionOf in getNextAction =====> BasicAction");
 				return getFirstActionOf(current_ba.next, agent);
 			}
 				
@@ -420,20 +414,19 @@ public class CurrentActionManager : FSystem
 		            ///////////xAPI
 		            if (currentAction.GetComponent<WhileControl>().firstChild != null)
 		            {
-			            UISystem.allActionExecuted =
-				            UISystem.allActionExecuted + "-While-" + currentAction.GetComponent<WhileControl>()
+			            gameData.allActionExecuted =
+				            gameData.allActionExecuted + "-While-" + currentAction.GetComponent<WhileControl>()
 					            .firstChild.GetComponent<BasicAction>().actionType +"-EndWhile-";
-			            UISystem.actionExecuted =
-				            UISystem.actionExecuted + "-While-" + currentAction.GetComponent<WhileControl>().firstChild
+			            gameData.actionExecutedPerAttempt =
+				            gameData.actionExecutedPerAttempt + "-While-" + currentAction.GetComponent<WhileControl>().firstChild
 					            .GetComponent<BasicAction>().actionType +"-EndWhile-";
 			            ////////////////
 		            }
-
+		           
 		            return currentAction.GetComponent<WhileControl>().firstChild;
 		            }
 	            else
 	            {
-		            //Debug.Log("call getFirstActionOf in getNextAction ====> WhileControl return firstchild");
 		            return getFirstActionOf(currentAction.GetComponent<WhileControl>().firstChild, agent);
 	            }
 		            
@@ -446,11 +439,11 @@ public class CurrentActionManager : FSystem
 		            ///////////xAPI
 		            if (currentAction.GetComponent<WhileControl>().next != null)
 		            {
-			            UISystem.allActionExecuted =
-			            UISystem.allActionExecuted + "-" + currentAction.GetComponent<WhileControl>()
+			            gameData.allActionExecuted =
+			            gameData.allActionExecuted + "-" + currentAction.GetComponent<WhileControl>()
 				            .next.GetComponent<BasicAction>().actionType;
-		            UISystem.actionExecuted =
-			            UISystem.actionExecuted + "-" + currentAction.GetComponent<WhileControl>().next
+		            gameData.actionExecutedPerAttempt =
+			            gameData.actionExecutedPerAttempt + "-" + currentAction.GetComponent<WhileControl>().next
 				            .GetComponent<BasicAction>().actionType;
 		            }
 		            //////////
@@ -458,7 +451,6 @@ public class CurrentActionManager : FSystem
 	            }
 	            else
 	            {
-		            //Debug.Log("call getFirstActionOf in getNextAction  ====> WhileControl return next");
 		            return getFirstActionOf(currentAction.GetComponent<WhileControl>().next, agent);
 	            }
 					
@@ -479,10 +471,10 @@ public class CurrentActionManager : FSystem
 					///////////xAPI
 					if (forAct.next != null)
 					{
-						UISystem.allActionExecuted =
-						UISystem.allActionExecuted +"-"+ forAct.next.GetComponent<BasicAction>().actionType;
-						UISystem.actionExecuted =
-						UISystem.actionExecuted +"-"+ forAct.next.GetComponent<BasicAction>().actionType;
+						gameData.allActionExecuted =
+						gameData.allActionExecuted +"-"+ forAct.next.GetComponent<BasicAction>().actionType;
+						gameData.actionExecutedPerAttempt =
+						gameData.actionExecutedPerAttempt +"-"+ forAct.next.GetComponent<BasicAction>().actionType;
 					}
 					////////////////
 					return forAct.next;
@@ -490,7 +482,6 @@ public class CurrentActionManager : FSystem
 
 				else
 				{
-					//Debug.Log("call getFirstActionOf in getNextAction  ====> ForControl return next");
 					return getFirstActionOf(forAct.next , agent);
 				}
 					
@@ -511,17 +502,16 @@ public class CurrentActionManager : FSystem
 						///////////xAPI
 						if (forAct.next != null)
 						{
-							UISystem.allActionExecuted =
-								UISystem.allActionExecuted +"-"+ forAct.next.GetComponent<BasicAction>().actionType;
-							UISystem.actionExecuted =
-								UISystem.actionExecuted +"-"+ forAct.next.GetComponent<BasicAction>().actionType;
+							gameData.allActionExecuted =
+								gameData.allActionExecuted +"-"+ forAct.next.GetComponent<BasicAction>().actionType;
+							gameData.actionExecutedPerAttempt =
+								gameData.actionExecutedPerAttempt +"-"+ forAct.next.GetComponent<BasicAction>().actionType;
 						}
 						////////////////
 						return forAct.next;
 					}
 					else
 					{
-						//Debug.Log("call getFirstActionOf in getNextAction  ====> ForControl return next");
 						return getFirstActionOf(forAct.next, agent);
 					}
 						
@@ -537,17 +527,16 @@ public class CurrentActionManager : FSystem
 					{
 						if (forAct.next != null)
 						{
-							UISystem.allActionExecuted =
-								UISystem.allActionExecuted + "-For-" + forAct.firstChild.GetComponent<BasicAction>().actionType + "EndFor";
-							UISystem.actionExecuted =
-								UISystem.actionExecuted + "-For-" + forAct.firstChild.GetComponent<BasicAction>().actionType + "EndFor";
+							gameData.allActionExecuted =
+								gameData.allActionExecuted + "-For-" + forAct.firstChild.GetComponent<BasicAction>().actionType + "EndFor";
+							gameData.actionExecutedPerAttempt =
+								gameData.actionExecutedPerAttempt + "-For-" + forAct.firstChild.GetComponent<BasicAction>().actionType + "EndFor";
 						}
 						////////////////
 						return forAct.firstChild;
 					}
 					else
 					{
-						//Debug.Log("call getFirstActionOf in getNextAction  ====> ForControl return firstchild");
 						return getFirstActionOf(forAct.firstChild, agent);
 					}
 						
@@ -556,7 +545,6 @@ public class CurrentActionManager : FSystem
 		}
 		// check if it is a IfAction
 		else if(currentAction.GetComponent<IfControl>()){
-			Debug.Log("we add if in getnextaction");
 			// check if IfAction has a first child and condition is true
 			IfControl ifAction = currentAction.GetComponent<IfControl>();
 			if (ifValid(ifAction.condition, agent)) {
@@ -565,22 +553,20 @@ public class CurrentActionManager : FSystem
 				if (ifAction.firstChild != null && ifAction.firstChild.GetComponent<BasicAction>())
 				{
 					
-					UISystem.allActionExecuted =
-						UISystem.allActionExecuted + "-If-" + ifAction.firstChild.GetComponent<BasicAction>().actionType + "EndIf";
-					UISystem.actionExecuted =
-						UISystem.actionExecuted + "-If-" + ifAction.firstChild.GetComponent<BasicAction>().actionType + "EndIf";
+					gameData.allActionExecuted =
+						gameData.allActionExecuted + "-If-" + ifAction.firstChild.GetComponent<BasicAction>().actionType + "EndIf";
+					gameData.actionExecutedPerAttempt =
+						gameData.actionExecutedPerAttempt + "-If-" + ifAction.firstChild.GetComponent<BasicAction>().actionType + "EndIf";
 					return ifAction.firstChild;
 				}
 				
 				else if (ifAction.firstChild != null)
 				{
-					//Debug.Log("call getFirstActionOf in getNextAction  ====> IfControl return firstchild");
 					return getFirstActionOf(ifAction.firstChild, agent);
 				}
 
 				else
 				{
-					//Debug.Log("call getFirstActionOf in getNextAction  ====> IfControl return next");
 					return getFirstActionOf(ifAction.next, agent);
 				}
 					
@@ -590,29 +576,25 @@ public class CurrentActionManager : FSystem
 				// return first child
 				if (ifElse.elseFirstChild != null && ifElse.elseFirstChild.GetComponent<BasicAction>())
 				{
-					UISystem.allActionExecuted =
-						UISystem.allActionExecuted + "-Else-" + ifElse.firstChild.GetComponent<BasicAction>().actionType + "EndIf";
-					UISystem.actionExecuted =
-						UISystem.actionExecuted + "-Else-" + ifElse.firstChild.GetComponent<BasicAction>().actionType + "EndIf";
+					gameData.allActionExecuted =
+						gameData.allActionExecuted + "-Else-" + ifElse.firstChild.GetComponent<BasicAction>().actionType + "EndIf";
+					gameData.actionExecutedPerAttempt =
+						gameData.actionExecutedPerAttempt + "-Else-" + ifElse.firstChild.GetComponent<BasicAction>().actionType + "EndIf";
 					return ifElse.elseFirstChild;
 				}
 				else if (ifElse.elseFirstChild != null)
 				{
-					//Debug.Log("call getFirstActionOf in getNextAction  ====> IfElseControl return firstchild");
 					return getFirstActionOf(ifElse.elseFirstChild, agent);
 				}
 					
 				else
 				{
-					//Debug.Log("call getFirstActionOf in getNextAction  ====> IfElseControl return next");
 					return getFirstActionOf(ifAction.next, agent);
 				}
 					
 			}
 			else
 			{
-				// return next action
-				//Debug.Log("call getFirstActionOf in getNextAction  ====>  return next");
 				getFirstActionOf(ifAction.next, agent);
 			}
 		}
@@ -634,4 +616,6 @@ public class CurrentActionManager : FSystem
 		yield return null; // we add new CurrentAction next frame otherwise families are not notified to this adding because at the begining of this frame GameObject already contains CurrentAction
 		GameObjectManager.addComponent<CurrentAction>(nextAction, new { agent = agent });
 	}
+
+	
 }

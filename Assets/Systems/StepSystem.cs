@@ -44,6 +44,7 @@ public class StepSystem : FSystem {
             // count a new execution
             gameData.totalExecute++;
             gameData.totalStep++;
+            gameData.actionExecutedPerAttempt = "";
             timeStepCpt = 1 / gameData.gameSpeed_current;
             nbStep++;
             Pause = false;
@@ -115,11 +116,11 @@ public class StepSystem : FSystem {
         else // newEnd_f.Count > 0 || (!playerHasNextAction && timeStep CPt <=0)
         {
             MainLoop.instance.StartCoroutine(delayCheckEnd());
-            //xAPI
+            //xAPI tracer la tentative du joueur pour le niveau
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("number", UISystem.level);
-            dic.Add("attempt", UISystem.attempt.ToString());
-            dic.Add("script", UISystem.actionExecuted);
+            dic.Add("attempt", gameData.totalExecute.ToString());
+            dic.Add("script", gameData.actionExecutedPerAttempt);
             GameObjectManager.addComponent<ActionPerformedForLRS>(MainLoop.instance.gameObject, new
             {
                 verb = UISystem.verb,

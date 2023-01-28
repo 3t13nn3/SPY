@@ -8,22 +8,33 @@ using System.Xml;
 using System;
 using System.Text.RegularExpressions;
 using System.Linq;
+using System.Collections;
 using Object = UnityEngine.Object;
 
 /// <summary>
 /// Manage main menu to launch a specific mission
 /// </summary>
-public class TitleScreenSystem : FSystem {
+public class TitleScreenSystem : FSystem
+{
 	private GameData gameData;
 	public GameData prefabGameData;
 	public GameObject mainMenu;
 	public GameObject campagneMenu;
 	public GameObject compLevelButton;
 	public GameObject cList;
-	public string pathFileParamFunct = "/StreamingAssets/ParamCompFunc/FunctionConstraint.csv"; // Chemin d'acces pour la chargement des paramètres des functions
-	public string pathFileParamRequiermentLibrary = "/StreamingAssets/ParamCompFunc/FunctionalityRequiermentLibrairy.xml"; // Chemin d'acces pour la chargement des paramètres des functions
 
-	private Dictionary<GameObject, List<GameObject>> levelButtons; //key = directory button,  value = list of level buttons
+	public string
+		pathFileParamFunct =
+			"/StreamingAssets/ParamCompFunc/FunctionConstraint.csv"; // Chemin d'acces pour la chargement des paramètres des functions
+
+	public string pathFileParamRequiermentLibrary =
+		"/StreamingAssets/ParamCompFunc/FunctionalityRequiermentLibrairy.xml"; // Chemin d'acces pour la chargement des paramètres des functions
+
+	private Dictionary<GameObject, List<GameObject>>
+		levelButtons; //key = directory button,  value = list of level buttons
+
+
+
 
 	protected override void onStart()
 	{
@@ -73,7 +84,8 @@ public class TitleScreenSystem : FSystem {
 		//create level directory buttons
 		foreach (string key in gameData.levelList.Keys)
 		{
-			GameObject directoryButton = Object.Instantiate<GameObject>(Resources.Load("Prefabs/Button") as GameObject, cList.transform);
+			GameObject directoryButton =
+				Object.Instantiate<GameObject>(Resources.Load("Prefabs/Button") as GameObject, cList.transform);
 			directoryButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = key;
 			levelButtons[directoryButton] = new List<GameObject>();
 			GameObjectManager.bind(directoryButton);
@@ -82,10 +94,15 @@ public class TitleScreenSystem : FSystem {
 			// create level buttons
 			for (int i = 0; i < gameData.levelList[key].Count; i++)
 			{
-				GameObject button = Object.Instantiate<GameObject>(Resources.Load("Prefabs/LevelButton") as GameObject, cList.transform);
-				button.transform.Find("Button").GetChild(0).GetComponent<TextMeshProUGUI>().text = Path.GetFileNameWithoutExtension(gameData.levelList[key][i]);
+				GameObject button = Object.Instantiate<GameObject>(Resources.Load("Prefabs/LevelButton") as GameObject,
+					cList.transform);
+				button.transform.Find("Button").GetChild(0).GetComponent<TextMeshProUGUI>().text =
+					Path.GetFileNameWithoutExtension(gameData.levelList[key][i]);
 				int delegateIndice = i; // need to use local variable instead all buttons launch the last
-				button.transform.Find("Button").GetComponent<Button>().onClick.AddListener(delegate { launchLevel(key, delegateIndice); });
+				button.transform.Find("Button").GetComponent<Button>().onClick.AddListener(delegate
+				{
+					launchLevel(key, delegateIndice);
+				});
 				levelButtons[directoryButton].Add(button);
 				GameObjectManager.bind(button);
 				GameObjectManager.setGameObjectState(button, false);
@@ -106,26 +123,34 @@ public class TitleScreenSystem : FSystem {
 					levelList.Add(repositoryPath + Path.DirectorySeparatorChar + (child.Attributes.GetNamedItem("name").Value));
 				}
 			}
+
 			return levelList;
 		}
+
 		return null;
 	}
 
-	protected override void onProcess(int familiesUpdateCount) {
-		if (Input.GetButtonDown("Cancel")) {
+	protected override void onProcess(int familiesUpdateCount)
+	{
+		if (Input.GetButtonDown("Cancel"))
+		{
+
 			Application.Quit();
 		}
 	}
 
 	// See Jouer button in editor
-	public void showCampagneMenu() {
+	public void showCampagneMenu()
+	{
 		GameObjectManager.setGameObjectState(campagneMenu, true);
 		GameObjectManager.setGameObjectState(mainMenu, false);
-		foreach (GameObject directory in levelButtons.Keys) {
+		foreach (GameObject directory in levelButtons.Keys)
+		{
 			//show directory buttons
 			GameObjectManager.setGameObjectState(directory, true);
 			//hide level buttons
-			foreach (GameObject level in levelButtons[directory]) {
+			foreach (GameObject level in levelButtons[directory])
+			{
 				GameObjectManager.setGameObjectState(level, false);
 			}
 		}
@@ -159,12 +184,15 @@ public class TitleScreenSystem : FSystem {
 		updateProgress();
 
 		//show/hide levels
-		foreach (GameObject directory in levelButtons.Keys) {
+		foreach (GameObject directory in levelButtons.Keys)
+		{
 			//hide level directories
 			GameObjectManager.setGameObjectState(directory, false);
 			//show levels
-			if (directory.Equals(levelDirectory)) {
-				for (int i = 0; i < levelButtons[directory].Count; i++) {
+			if (directory.Equals(levelDirectory))
+			{
+				for (int i = 0; i < levelButtons[directory].Count; i++)
+				{
 					GameObjectManager.setGameObjectState(levelButtons[directory][i], true);
 					string directoryName = levelDirectory.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text; // Compagne d'infiltration
 
@@ -232,8 +260,10 @@ public class TitleScreenSystem : FSystem {
 				}
 			}
 			//hide other levels
-			else {
-				foreach (GameObject go in levelButtons[directory]) {
+			else
+			{
+				foreach (GameObject go in levelButtons[directory])
+				{
 					GameObjectManager.setGameObjectState(go, false);
 				}
 			}
@@ -241,25 +271,31 @@ public class TitleScreenSystem : FSystem {
 	}
 
 	public void launchLevel(string levelDirectory, int level) {
-		Debug.Log(levelDirectory + level.ToString());
+		// Debug.Log(levelDirectory + level.ToString());
 		gameData.levelToLoad = (levelDirectory, level);
 		GameObjectManager.loadScene("MainScene");
+
 	}
 
 	// See Retour button in editor
-	public void backFromCampagneMenu() {
-		foreach (GameObject directory in levelButtons.Keys) {
-			if (directory.activeSelf) {
+	public void backFromCampagneMenu()
+	{
+		foreach (GameObject directory in levelButtons.Keys)
+		{
+			if (directory.activeSelf)
+			{
 				//main menu
 				GameObjectManager.setGameObjectState(mainMenu, true);
 				GameObjectManager.setGameObjectState(campagneMenu, false);
 				break;
 			}
-			else {
+			else
+			{
 				//show directory buttons
 				GameObjectManager.setGameObjectState(directory, true);
 				//hide level buttons
-				foreach (GameObject go in levelButtons[directory]) {
+				foreach (GameObject go in levelButtons[directory])
+				{
 					GameObjectManager.setGameObjectState(go, false);
 				}
 			}
@@ -286,6 +322,7 @@ public class TitleScreenSystem : FSystem {
 				endOfFile = true;
 				break;
 			}
+
 			string[] data = data_string.Split(';');
 			gameData.GetComponent<FunctionalityParam>().active.Add(data[0], Convert.ToBoolean(data[4]));
 			gameData.GetComponent<FunctionalityParam>().levelDesign.Add(data[0], Convert.ToBoolean(data[3]));
@@ -295,6 +332,7 @@ public class TitleScreenSystem : FSystem {
 			{
 				tmp.Add(value);
 			}
+
 			gameData.GetComponent<FunctionalityParam>().activeFunc.Add(data[0], new List<string>(tmp));
 			tmp = new List<string>();
 			data_link = data[2].Split(',');
@@ -302,11 +340,13 @@ public class TitleScreenSystem : FSystem {
 			{
 				tmp.Add(value);
 			}
+
 			gameData.GetComponent<FunctionalityParam>().enableFunc.Add(data[0], new List<string>(tmp));
 		}
 	}
 
-	private void loadRequiermentLibrary(){
+	private void loadRequiermentLibrary()
+	{
 		XmlDocument doc = new XmlDocument();
 		if (Application.platform == RuntimePlatform.WebGLPlayer)
 		{
@@ -321,31 +361,46 @@ public class TitleScreenSystem : FSystem {
 	}
 
 	private void XMLRequiermentLibrary(XmlDocument doc)
-    {
+	{
 		XmlNode root = doc.ChildNodes[1];
 		foreach (XmlNode child in root.ChildNodes)
 		{
-            if (child.Name == "CaptorList")
-            {
+			if (child.Name == "CaptorList")
+			{
 				foreach (XmlNode childEle in child)
-                {
-					gameData.GetComponent<FunctionalityParam>().listCaptor.Add(childEle.Attributes.GetNamedItem("name").Value);
+				{
+					gameData.GetComponent<FunctionalityParam>().listCaptor
+						.Add(childEle.Attributes.GetNamedItem("name").Value);
 				}
 			}
-			else if(child.Name == "func")
-            {
+			else if (child.Name == "func")
+			{
 				List<string> listEleTemp = new List<string>();
 				foreach (XmlNode childEle in child)
 				{
 					listEleTemp.Add(childEle.Attributes.GetNamedItem("name").Value);
 				}
-				gameData.GetComponent<FunctionalityParam>().elementRequiermentLibrary.Add(child.Attributes.GetNamedItem("name").Value, listEleTemp);
+
+				gameData.GetComponent<FunctionalityParam>().elementRequiermentLibrary
+					.Add(child.Attributes.GetNamedItem("name").Value, listEleTemp);
 			}
 		}
 	}
 
 	// See Quitter button in editor
-	public void quitGame(){
+	public void quitGame()
+	{
+		Dictionary<string, string> extActi = new Dictionary<string, string>();
+		extActi.Add("duration", Time.realtimeSinceStartup.ToString());
+		extActi.Add("number", LevelGenerator.levelPlayedDuringSession);
+		// xAPI tracer la duree de la session 
+		GameObjectManager.addComponent<ActionPerformedForLRS>(mainMenu, new
+		{
+			verb = "exited",
+			objectType = "session",
+			activityExtensions = extActi
+		});
+		LevelGenerator.levelPlayedDuringSession = "";
 		Application.Quit();
 	}
 }

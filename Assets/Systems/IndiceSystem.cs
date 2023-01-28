@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using FYFY;
 using Newtonsoft.Json.Serialization;
@@ -13,7 +14,6 @@ public class IndiceSystem : FSystem {
 	private GameData gameData;
 	public GameObject indicePanel;
 	public Button indiceButton;
-	public static bool showSecondInd;
 	private int nIndice;
 	private bool showMsg;
 
@@ -25,10 +25,6 @@ public class IndiceSystem : FSystem {
 		GameObject go = GameObject.Find("GameData");
 		if (go != null)
 			gameData = go.GetComponent<GameData>();
-		/* ancienne version
-		 nIndice = -1;
-		 */
-		showSecondInd = false;
 		GameObjectManager.setGameObjectState(indicePanel.transform.parent.gameObject, false);
 		//si des indices ont été défini pour le niveau on affiche le boutton "indice"
 		if (gameData == null || gameData.indiceMessage.Count == 0)
@@ -40,40 +36,28 @@ public class IndiceSystem : FSystem {
 
 	protected override void onProcess(int familiesUpdateCount)
 	{
-		/* ancienne version
-		 si le joueur a fait deux tentatives mais n'a toujours pas fini le niveau on déploque le deuxième indice
-		if (showSecondInd) indiceButton.interactable = true;
-		 */
-		if (UISystem.attempt >= 2 && !showMsg)
+		
+		if (gameData!= null && gameData.totalExecute >= 2 && !showMsg)
 		{
 			MainLoop.instance.StartCoroutine(ShowMsgNewIndice());
 			showMsg = true;
+		
 		}
 	}
 
 
 	public void showIndicePanel()
 	{
-		/* ancienne version
-		si (c'est le premier indice (indice 0) à afficher ou que le deuxième a été déploqué) et
-		qu'il reste des indices à afficher alors on affiche l'indice
-		
-		if ((nIndice == -1 || showSecondInd) && nIndice + 1 < gameData.indiceMessage.Count)
-		*/
-		
+
 		nIndice = -1;
 		if (nIndice + 1 < gameData.indiceMessage.Count)
 		{
 			GameObjectManager.setGameObjectState(indicePanel.transform.parent.gameObject, true);
 			nIndice += 1; //on incrémente le nombre d'indice affiché 
 			configureIndice();
-			/* ancienne version
-			si c'est le premier indice qu'on affiche et qu'il a déja fait deux tentatives alors afficher les deux indices dicrectement
 			
-			if (nIndice == 0 && showSecondInd) 
-			*/
 			
-			if (showSecondInd) 
+			if (showMsg) 
 			{
 				setActiveNextButton(true);
 				setActiveOKButton(false);
@@ -83,8 +67,7 @@ public class IndiceSystem : FSystem {
 				setActiveNextButton(false);
 				setActiveOKButton(true);
 			}
-			//showSecondInd = false; //si le deuxième indice a déja été affiché on met la var à false
-                          //pour que le bouton indice soit désactivé par la méthode onprocess
+			
 		}
 	}
 	
@@ -96,7 +79,7 @@ public class IndiceSystem : FSystem {
 		{
 			GameObjectManager.setGameObjectState(textGO, true);
 			textGO.GetComponent<TextMeshProUGUI>().text = gameData.indiceMessage[nIndice].Item1;
-			/////////////////////
+			////xAPI tracer les demandes d'indices et l'indice fourni 
 			Dictionary<string, string> dic = new Dictionary<string, string>();
 			dic.Add("number", UISystem.level);
 			dic.Add("value", gameData.indiceMessage[nIndice].Item1);
