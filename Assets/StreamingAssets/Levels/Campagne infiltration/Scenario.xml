@@ -3,8 +3,12 @@
     <level name = "Niveau1.xml" />
     <level name = "Niveau2.xml" />
     <level name = "Niveau3.xml" />
-    <level name = "Niveau4.xml" />
-    <level name = "Niveau5.xml" />
+    <level name = "Niveau4_1.xml" />
+    <level name = "Niveau4_2.xml" />
+    <level name = "Niveau4_3.xml" />
+    <level name = "Niveau5_1.xml" />
+    <level name = "Niveau5_2.xml" />
+    <level name = "Niveau5_3.xml" />
     <level name = "Niveau6.xml" />
     <level name = "Niveau7.xml" />
     <level name = "Niveau8.xml" />

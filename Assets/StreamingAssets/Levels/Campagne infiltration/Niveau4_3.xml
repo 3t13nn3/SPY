@@ -22,8 +22,8 @@
   </indices>
   <blockLimits>
     <blockLimit blockType="Forward" limit="3" />
-    <blockLimit blockType="TurnLeft" limit="0" />
-    <blockLimit blockType="TurnRight" limit="0" />
+    <blockLimit blockType="TurnLeft" limit="-1" />
+    <blockLimit blockType="TurnRight" limit="-1" />
     <blockLimit blockType="Wait" limit="0" />
     <blockLimit blockType="Activate" limit="0" />
     <blockLimit blockType="TurnBack" limit="0" />
