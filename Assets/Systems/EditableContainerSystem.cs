@@ -324,6 +324,7 @@ public class EditableContainerSystem : FSystem
 			Debug.Log(string.Compare(a, "fonction"));
 			if(string.Compare(a, "fonction") == 1) {
 				container.transform.Find("ContainerName").GetComponent<TMP_InputField>().image.color = new Color(0.28f, 1f, 1f, 2f);
+				container.transform.GetComponent<Image>().color = new Color(0.18f, 0.7f, 0.9f, 1f);
 				Debug.Log(container.transform.Find("Header").Find("NameText"));
 				container.transform.Find("Header").Find("NameText").GetComponent<TextMeshProUGUI>().text = "";
 			}

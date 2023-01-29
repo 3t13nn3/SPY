@@ -6,16 +6,18 @@
 	<dialog text="Vous disposez maintenant de la nouvelle action 'Attendre'. Elle permet d'ordonner au robot de faire une pose avant de passer à l'action suivante." img="WaitIcon.png" imgHeight="45"/>
   </dialogs>
   <map>
-	<line><cell value="1"/><cell value="1"/><cell value="3"/><cell value="1"/><cell value="1"/></line>
-	<line><cell value="1"/><cell value="1"/><cell value="0"/><cell value="1"/><cell value="1"/></line>
-	<line><cell value="0"/><cell value="0"/><cell value="0"/><cell value="0"/><cell value="0"/></line>
-	<line><cell value="1"/><cell value="1"/><cell value="0"/><cell value="1"/><cell value="1"/></line>
-	<line><cell value="1"/><cell value="1"/><cell value="2"/><cell value="1"/><cell value="1"/></line>
-
+	<line><cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /></line>
+    <line><cell value="-1" /><cell value= "1" /><cell value= "1" /><cell value= "0" /><cell value= "1" /><cell value= "1" /><cell value="-1" /></line>
+    <line><cell value="-1" /><cell value= "1" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "1" /><cell value="-1" /></line>
+    <line><cell value="-1" /><cell value= "0" /><cell value= "0" /><cell value= "1" /><cell value= "0" /><cell value= "3" /><cell value="-1" /></line>
+    <line><cell value="-1" /><cell value= "1" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "1" /><cell value="-1" /></line>
+    <line><cell value="-1" /><cell value= "1" /><cell value= "1" /><cell value= "0" /><cell value= "1" /><cell value= "1" /><cell value="-1" /></line>
+    <line><cell value="-1" /><cell value= "0" /><cell value= "0" /><cell value= "2" /><cell value= "0" /><cell value= "0" /><cell value="-1" /></line>
+    <line><cell value="-1" /><cell value= "1" /><cell value= "1" /><cell value= "0" /><cell value= "1" /><cell value= "1" /><cell value="-1" /></line>
+	<line><cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /></line>
   </map>
   <blockLimits>
     <blockLimit blockType="Forward" limit="-1" />
-    <blockLimit blockType="Function" limit="-1" />
     <blockLimit blockType="TurnLeft" limit="-1" />
     <blockLimit blockType="TurnRight" limit="-1" />
     <blockLimit blockType="Wait" limit="-1" />
@@ -36,23 +38,17 @@
     <blockLimit blockType="Terminal" limit="0" />
     <blockLimit blockType="Exit" limit="0" />
   </blockLimits>
-
-  <door posY="2" posX="0" direction="2" slotId="0" />
-  <door posY="2" posX="4" direction="2" slotId="0" />
-
-  <player associatedScriptName="Bob" posY="4" posX="2" direction="0" />
+  <door posY="6" posX="1" direction="2" slotId="0" />
+  <door posY="6" posX="5" direction="2" slotId="1" />
+  <player associatedScriptName="Bob" posY="6" posX="3" direction="0" />
   <script name="Bob" editMode="0" />
-  <enemy associatedScriptName="Guarde" posY="2" posX="0" direction="2" range="1" selfRange="False" typeRange="0" />
+  <enemy associatedScriptName="Guarde" posY="2" posX="2" direction="2" range="1" selfRange="False" typeRange="0" />
   <script name="Guarde">
       <forever>
         <action type="Forward"/>
-        <action type="Wait"/>
         <action type="Forward"/>
-        <action type="Forward"/>
+        <action type="TurnRight"/>
       </forever>
   </script>
-
-  <script name="fonction" editMode="0"></script>
-
-  <score twoStars="5714" threeStars="6214"/>
+  <score twoStars="4266" threeStars="4333"/>
 </level>
