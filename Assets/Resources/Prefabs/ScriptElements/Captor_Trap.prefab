@@ -177,7 +177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseColor: {r: 1, g: 1, b: 1, a: 1}
   highlightedColor: {r: 0.36078432, g: 0.69411767, b: 0.8392157, a: 0.78431374}
-  captorType: 0
+  captorType: 6
 --- !u!114 &7281793342713614650
 MonoBehaviour:
   m_ObjectHideFlags: 0

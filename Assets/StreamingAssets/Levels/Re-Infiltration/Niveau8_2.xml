@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<level>
+  <dialogs>
+	<dialog text="Regarde, il n'y a qu'un chemin pour atteindre la sortie, ça devrait être simple non ?"/>
+	<dialog text="Ah non, pas si simple, il y a un garde qui se cache sur un coté et qui surveille la zone! Tout vient à point à qui sait attendre... Si tu n'attends le moment adéquat, il risque de te voir !" textHeight="110" />
+	<dialog text="Tu devrais utiliser cette nouvelle action: Attendre" img="WaitIcon.png" imgHeight="45"/>
+  </dialogs>
+
+  <indices>
+    <indice text="Tu devrais analyser le comportement d'une ronde du robot pour attendre en fonction..." />
+    <indice text="Si tu t'arrêtes 2 fois, le robot ne regardera pas le chemin!" />
+  </indices>
+
+  <map>
+	<line><cell value="1"/><cell value="1"/><cell value="1"/><cell value="1"/><cell value="1"/><cell value="3"/><cell value="1"/></line>
+  <line><cell value="1"/><cell value="0"/><cell value="0"/><cell value="0"/><cell value="1"/><cell value="0"/><cell value="1"/></line>
+  <line><cell value="1"/><cell value="0"/><cell value="1"/><cell value="2"/><cell value="1"/><cell value="0"/><cell value="1"/></line>
+  <line><cell value="1"/><cell value="0"/><cell value="1"/><cell value="0"/><cell value="1"/><cell value="0"/><cell value="1"/></line>
+  <line><cell value="1"/><cell value="0"/><cell value="0"/><cell value="0"/><cell value="0"/><cell value="0"/><cell value="1"/></line>
+  <line><cell value="1"/><cell value="1"/><cell value="1"/><cell value="0"/><cell value="1"/><cell value="1"/><cell value="1"/></line>
+  <line><cell value="-1"/><cell value="-1"/><cell value="1"/><cell value="1"/><cell value="1"/><cell value="-1"/><cell value="-1"/></line>
+  </map>
+  <blockLimits>
+    <blockLimit blockType="Forward" limit="-1" />
+    <blockLimit blockType="TurnLeft" limit="-1" />
+    <blockLimit blockType="TurnRight" limit="-1" />
+    <blockLimit blockType="Wait" limit="-1" />
+    <blockLimit blockType="Activate" limit="-1" />
+    <blockLimit blockType="TurnBack" limit="-1" />
+    <blockLimit blockType="If" limit="0" />
+    <blockLimit blockType="IfElse" limit="0" />
+    <blockLimit blockType="For" limit="-1" />
+    <blockLimit blockType="While" limit="0" />
+    <blockLimit blockType="Forever" limit="0" />
+    <blockLimit blockType="AndOperator" limit="0" />
+    <blockLimit blockType="OrOperator" limit="0" />
+    <blockLimit blockType="NotOperator" limit="0" />
+    <blockLimit blockType="Wall" limit="0" />
+    <blockLimit blockType="Enemie" limit="0" />
+    <blockLimit blockType="RedArea" limit="0" />
+    <blockLimit blockType="FieldGate" limit="0" />
+    <blockLimit blockType="Terminal" limit="0" />
+    <blockLimit blockType="Exit" limit="0" />
+  </blockLimits>
+  <door posY="3" posX="3" direction="0" slotId="0" />
+  <player associatedScriptName="Bob" posY="2" posX="3" direction="0" />
+  <script name="Bob" editMode="0" />
+  <enemy associatedScriptName="Guarde" posY="3" posX="3" direction="1" range="1" selfRange="False" typeRange="0" />
+  <script name="Guarde">
+      <forever>
+        <action type="Forward"/>
+        <action type="Wait"/>
+        <action type="Forward"/>
+        <action type="TurnBack"/>
+      </forever>
+  </script>
+  <score twoStars="3000" threeStars="3852"/>
+</level>

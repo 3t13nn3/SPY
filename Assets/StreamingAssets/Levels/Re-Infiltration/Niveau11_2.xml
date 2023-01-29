@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<level>
+  <map>
+    <line><cell value="-1" /><cell value="-1" /><cell value="-1" /></line>
+    <line><cell value= "1" /><cell value= "3" /><cell value= "1" /></line>
+    <line><cell value= "1" /><cell value= "0" /><cell value= "1" /></line>
+    <line><cell value= "1" /><cell value= "0" /><cell value= "1" /></line>
+    <line><cell value= "1" /><cell value= "0" /><cell value= "1" /></line>
+    <line><cell value= "1" /><cell value= "0" /><cell value= "1" /></line>
+    <line><cell value= "1" /><cell value= "0" /><cell value= "1" /></line>
+    <line><cell value= "1" /><cell value= "0" /><cell value= "1" /></line>
+    <line><cell value= "1" /><cell value= "2" /><cell value= "1" /></line>
+    <line><cell value="-1" /><cell value="-1" /><cell value="-1" /></line>
+  </map>
+
+  <indices>
+    	<indice text="Place déjà les blocks fonctions dans le script du robot et ensuite remplis la fonction."/>
+	    <indice text="Tu dois utiliser la fonction entre chaque virage !"/>
+  </indices>
+
+  <dialogs>
+    <dialog text="Il s'avère qu'on surnomme Bob: Lazy Bob car il est très feignant."/>
+    <dialog text="Une chose qu'il adore, c'est de faire le moins de chose possible..."/>
+    <dialog text="Le block Fonction lui permet d'éxecuter plusieurs fois la même suite d'action en utilisant qu'un seul block, il adore ! :D" img="function-9-512.png" imgHeight="45"/>
+    <dialog text="Ici, il aimerait automatiser l'ouverture des portes..."/>
+  </dialogs>
+
+  <executionLimit amount="1" />
+  <blockLimits>
+    <blockLimit blockType="Forward" limit="6" />
+    <blockLimit blockType="TurnLeft" limit="1" />
+    <blockLimit blockType="TurnRight" limit="1" />
+    <blockLimit blockType="Wait" limit="0" />
+    <blockLimit blockType="Activate" limit="1" />
+    <blockLimit blockType="TurnBack" limit="0" />
+    <blockLimit blockType="If" limit="0" />
+    <blockLimit blockType="IfElse" limit="0" />
+    <blockLimit blockType="For" limit="0" />
+    <blockLimit blockType="While" limit="0" />
+    <blockLimit blockType="Forever" limit="0" />
+    <blockLimit blockType="AndOperator" limit="0" />
+    <blockLimit blockType="OrOperator" limit="0" />
+    <blockLimit blockType="NotOperator" limit="0" />
+    <blockLimit blockType="Wall" limit="0" />
+    <blockLimit blockType="Enemie" limit="0" />
+    <blockLimit blockType="RedArea" limit="0" />
+    <blockLimit blockType="FieldGate" limit="0" />
+    <blockLimit blockType="Terminal" limit="0" />
+    <blockLimit blockType="Exit" limit="0" />
+    <blockLimit blockType="Function" limit="3" />
+  </blockLimits>
+
+  <console state="1" posY="2" posX="1" direction="3">
+    <slot slotId="0" />
+  </console>
+  <door posY="1" posX="1" slotId="0" direction="0" />
+
+  <console state="1" posY="4" posX="1" direction="3">
+    <slot slotId="1" />
+  </console>
+  <door posY="3" posX="1" slotId="1" direction="0" />
+
+  <console state="1" posY="7" posX="1" direction="3">
+    <slot slotId="2" />
+  </console>
+  <door posY="6" posX="1" slotId="2" direction="0" />
+
+
+  <player associatedScriptName="Bob" posY="8" posX="1" direction="0" />
+  <script name="Bob" editMode="0">
+  </script>
+
+  <script name="fonction" editMode="0"></script>
+
+  <score twoStars="0" threeStars="4294"/>
+</level>

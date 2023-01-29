@@ -10,9 +10,18 @@
     <line><cell value= "2" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value="0" /></line>
     <line><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value="1" /></line>
   </map>
+
+  <indices>
+    <indice text="Tu devrais vérifier l'élement devant toi avant de faire un mouvement." />
+    <indice text="Le mieux, ça serait de toujours avancer tout en vérifiant toutes les possibilités quand il faut tourner." />
+  </indices>
+
    <dialogs>
-	<dialog text="Nous avons encore des problèmes de communication mais nous avons tout de même réussi à vous envoyer quelques commandes supplémentaires. Désolé de ne pouvoir faire plus !" />
+	<dialog text="Que dirais tu d'un challenge ?"/>
+	<dialog text="On t'as limité tes actions de déplacement pour te mettre au défi cette fois ci! \(ò_óˇ)/"/>
+	<dialog text="Cependant, tu peux savoir ce qu'il y a devant toi et quand tu es arrivé. A toi de faire en fonction !"/>
   </dialogs>
+
   <executionLimit amount="1" />
   <blockLimits>
     <blockLimit blockType="Forward" limit="1" />

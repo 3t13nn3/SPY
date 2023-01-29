@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<level>
+  <map>
+    <line><cell value= "1"/><cell value= "2"/><cell value= "1"/><cell value= "3"/><cell value= "1"/></line>
+    <line><cell value= "1"/><cell value= "0"/><cell value= "0"/><cell value= "0"/><cell value= "1"/></line>
+    <line><cell value= "1"/><cell value= "0"/><cell value= "0"/><cell value= "0"/><cell value= "1"/></line>
+    <line><cell value= "1"/><cell value= "0"/><cell value= "0"/><cell value= "0"/><cell value= "0"/></line>
+    <line><cell value= "1"/><cell value= "0"/><cell value= "1"/><cell value= "1"/><cell value= "1"/></line>
+  </map>
+
+  <indices>
+    <indice text="Tu devrais vérifier l'élement devant toi avant de faire un mouvement." />
+    <indice text="Le mieux, ça serait de toujours avancer tout en vérifiant quand il faut tourner." />
+  </indices>
+
+   <dialogs>
+	<dialog text="Que dirais tu d'un challenge ?"/>
+	<dialog text="On t'as limité tes actions de déplacement pour te mettre au défi cette fois ci! \(ò_óˇ)/"/>
+	<dialog text="Cependant, tu peux savoir ce qu'il y a devant toi et quand tu es arrivé. A toi de faire en fonction !"/>
+  </dialogs>
+  <executionLimit amount="1" />
+  <blockLimits>
+    <blockLimit blockType="Forward" limit="1" />
+    <blockLimit blockType="TurnLeft" limit="1" />
+    <blockLimit blockType="TurnRight" limit="0" />
+    <blockLimit blockType="Wait" limit="0" />
+    <blockLimit blockType="Activate" limit="0" />
+    <blockLimit blockType="TurnBack" limit="0" />
+    <blockLimit blockType="If" limit="1" />
+    <blockLimit blockType="IfElse" limit="0" />
+    <blockLimit blockType="For" limit="0" />
+    <blockLimit blockType="While" limit="0" />
+    <blockLimit blockType="Forever" limit="0" />
+    <blockLimit blockType="AndOperator" limit="0" />
+    <blockLimit blockType="OrOperator" limit="0" />
+    <blockLimit blockType="NotOperator" limit="0" />
+    <blockLimit blockType="Wall" limit="0" />
+    <blockLimit blockType="Enemie" limit="0" />
+    <blockLimit blockType="RedArea" limit="0" />
+    <blockLimit blockType="FieldGate" limit="1" />
+    <blockLimit blockType="Terminal" limit="0" />
+    <blockLimit blockType="Exit" limit="0" />
+  </blockLimits>
+
+  <door posY="1" posX="2" direction="2" slotId="0" />
+  <door posY="2" posX="2" direction="2" slotId="0" />
+  <door posY="1" posX="2" direction="0" slotId="0" />
+  <door posY="2" posX="2" direction="0" slotId="0" />
+
+  <door posY="4" posX="1" direction="0" slotId="0" />
+  <door posY="4" posX="2" direction="0" slotId="0" />
+  <door posY="4" posX="3" direction="0" slotId="0" />
+  <door posY="1" posX="4" direction="2" slotId="0" />
+  <door posY="2" posX="4" direction="2" slotId="0" />
+  <door posY="3" posX="4" direction="2" slotId="0" />
+  <player associatedScriptName="Bob" posY="0" posX="1" direction="1" />
+  <script name="Bob" editMode="0">
+	<while>
+		<condition>
+          <not>
+            <captor type="Exit" />
+          </not>
+        </condition>
+        <container>
+        </container>
+	</while>
+  </script>
+  <score twoStars="0" threeStars="4666"/>
+</level>

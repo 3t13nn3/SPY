@@ -37,7 +37,7 @@ public class IndiceSystem : FSystem {
 	protected override void onProcess(int familiesUpdateCount)
 	{
 		
-		if (gameData!= null && gameData.totalExecute >= 2 && !showMsg)
+		if (gameData!= null && gameData.totalExecute >= 2 && !showMsg && gameData.indiceMessage.Count>0)
 		{
 			MainLoop.instance.StartCoroutine(ShowMsgNewIndice());
 			showMsg = true;

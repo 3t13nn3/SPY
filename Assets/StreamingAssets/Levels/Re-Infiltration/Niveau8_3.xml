@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<level>
+  <dialogs>
+	<dialog text="Regarde la sortie et de l'autre coté du mur. La zone à l'air vachement bien gardée..."/>
+	<dialog text="3 gardes surveillent la zone avec des rondes différentes! Tout vient à point à qui sait attendre... Si tu n'attends pas la fin de chacune de leurs rondes, ils risquent de te voir !" textHeight="110" />
+	<dialog text="Tu devrais utiliser cette nouvelle action pour éviter d'être vu: Attendre" img="WaitIcon.png" imgHeight="45"/>
+  </dialogs>
+
+  <indices>
+    <indice text="Tu devrais attendre dès le début." />
+    <indice text="L'action pour se retourner est nécessaire pour esquiver le premier garde !" />
+  </indices>
+
+  <map>
+	<line><cell value="-1"/><cell value="-1"/><cell value="1"/><cell value="1"/><cell value="1"/><cell value="1"/></line>
+	<line><cell value="-1"/><cell value="1"/><cell value="1"/><cell value="0"/><cell value="0"/><cell value="1"/></line>
+	<line><cell value="1"/><cell value="1"/><cell value="0"/><cell value="0"/><cell value="0"/><cell value="1"/></line>
+	<line><cell value="1"/><cell value="0"/><cell value="0"/><cell value="1"/><cell value="0"/><cell value="0"/></line>
+	<line><cell value="1"/><cell value="0"/><cell value="1"/><cell value="0"/><cell value="1"/><cell value="0"/></line>
+	<line><cell value="0"/><cell value="0"/><cell value="0"/><cell value="0"/><cell value="1"/><cell value="0"/></line>
+	<line><cell value="1"/><cell value="1"/><cell value="1"/><cell value="2"/><cell value="1"/><cell value="3"/></line>
+
+  </map>
+  <blockLimits>
+    <blockLimit blockType="Forward" limit="-1" />
+    <blockLimit blockType="TurnLeft" limit="-1" />
+    <blockLimit blockType="TurnRight" limit="-1" />
+    <blockLimit blockType="Wait" limit="-1" />
+    <blockLimit blockType="Activate" limit="-1" />
+    <blockLimit blockType="TurnBack" limit="-1" />
+    <blockLimit blockType="If" limit="0" />
+    <blockLimit blockType="IfElse" limit="0" />
+    <blockLimit blockType="For" limit="-1" />
+    <blockLimit blockType="While" limit="0" />
+    <blockLimit blockType="Forever" limit="0" />
+    <blockLimit blockType="AndOperator" limit="0" />
+    <blockLimit blockType="OrOperator" limit="0" />
+    <blockLimit blockType="NotOperator" limit="0" />
+    <blockLimit blockType="Wall" limit="0" />
+    <blockLimit blockType="Enemie" limit="0" />
+    <blockLimit blockType="RedArea" limit="0" />
+    <blockLimit blockType="FieldGate" limit="0" />
+    <blockLimit blockType="Terminal" limit="0" />
+    <blockLimit blockType="Exit" limit="0" />
+  </blockLimits>
+
+  <door posY="5" posX="0" direction="2" slotId="0" />
+
+  <player associatedScriptName="Bob" posY="6" posX="3" direction="0" />
+  <script name="Bob" editMode="0" />
+  <enemy associatedScriptName="Guarde" posY="1" posX="3" direction="2" range="1" selfRange="False" typeRange="0" />
+  <script name="Guarde">
+      <forever>
+        <action type="Forward"/>
+        <action type="TurnRight"/>
+      </forever>
+  </script>
+
+  <enemy associatedScriptName="Guarde2" posY="3" posX="2" direction="2" range="1" selfRange="False" typeRange="0" />
+  <script name="Guarde2">
+      <forever>
+        <action type="TurnRight"/>
+        <action type="TurnRight"/>
+        <action type="Forward"/>
+      </forever>
+  </script>
+
+  <enemy associatedScriptName="Guarde3" posY="5" posX="1" direction="2" range="1" selfRange="False" typeRange="0" />
+  <script name="Guarde3">
+      <forever>
+        <action type="Forward"/>
+        <action type="Forward"/>
+        <action type="TurnRight"/>
+        <action type="TurnRight"/>
+        <action type="Forward"/>
+      </forever>
+  </script>
+
+  <score twoStars="3000" threeStars="3572"/>
+</level>

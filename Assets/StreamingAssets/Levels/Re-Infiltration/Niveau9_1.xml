@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<level>
+    <map>
+        <line><cell value="-1" /><cell value= "1" /><cell value= "2" /><cell value= "1" /><cell value= "1" /><cell value= "1" /><cell value= "1" /><cell value= "1" /><cell value="-1" /></line>
+        <line><cell value="-1" /><cell value= "1" /><cell value= "0" /><cell value= "1" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "1" /><cell value="-1" /></line>
+        <line><cell value="-1" /><cell value= "1" /><cell value= "0" /><cell value= "1" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "1" /><cell value="-1" /></line>
+        <line><cell value="-1" /><cell value= "1" /><cell value= "0" /><cell value= "1" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "1" /><cell value="-1" /></line>
+        <line><cell value="-1" /><cell value= "1" /><cell value= "0" /><cell value= "1" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "1" /><cell value="-1" /></line>
+        <line><cell value="-1" /><cell value= "1" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "3" /><cell value="-1" /></line>
+        <line><cell value="-1" /><cell value= "1" /><cell value= "1" /><cell value= "1" /><cell value= "1" /><cell value= "1" /><cell value= "1" /><cell value= "1" /><cell value="-1" /></line>
+    </map>
+    <fog/>
+    <dialogs>
+        <dialog text="Il semblerait qu'il y ait un problème de visibilité." />
+        <dialog text="Selon nos sources, une console permettant d'ouvrir une porte située à gauche, se trouve au bout de la route." />
+        <dialog text="Après avoir ouvert la porte, il ne reste plus qu'à avancer vers la victoire !" />
+    </dialogs>
+    <indices>
+        <indice text="Vous devez juste avancer jusqu'à trouver un terminal" />
+        <indice text="Maintenant que vous avez ouvert la porte, vous devez tourner à gauche et avancer jusqu'à ce trouver la case de fin !" />
+    </indices>
+    <blockLimits>
+        <blockLimit blockType="Forward" limit="-1" />
+        <blockLimit blockType="TurnLeft" limit="-1" />
+        <blockLimit blockType="TurnRight" limit="-1" />
+        <blockLimit blockType="Wait" limit="-1" />
+        <blockLimit blockType="Activate" limit="-1" />
+        <blockLimit blockType="TurnBack" limit="-1" />
+        <blockLimit blockType="If" limit="-1" />
+        <blockLimit blockType="IfElse" limit="0" />
+        <blockLimit blockType="For" limit="-1" />
+        <blockLimit blockType="While" limit="-1" />
+        <blockLimit blockType="Forever" limit="0" />
+        <blockLimit blockType="AndOperator" limit="0" />
+        <blockLimit blockType="OrOperator" limit="0" />
+        <blockLimit blockType="NotOperator" limit="-1" />
+        <blockLimit blockType="Wall" limit="-1" />
+        <blockLimit blockType="Enemie" limit="0" />
+        <blockLimit blockType="RedArea" limit="0" />
+        <blockLimit blockType="FieldGate" limit="0" />
+        <blockLimit blockType="Terminal" limit="0" />
+        <blockLimit blockType="Exit" limit="-1" />
+    </blockLimits>
+    
+    <script name="Bob" editMode="0" type="3">
+        <while>
+            <condition>
+                <not>
+                    <captor type="Terminal" />
+                </not>
+            </condition>
+            <container>
+            </container>
+        </while>
+    </script>
+    
+    
+    <console state="1" posY="5" posX="2" direction="1">
+        <slot slotId="0"/>
+    </console>
+    <door posY="5" posX="3" slotId="0" direction="3"/>
+    <player associatedScriptName="Bob" posY="0" posX="2" direction="1" />
+    <script name="Bob" editMode="0" />
+    <score twoStars="2988" threeStars="4266"/>
+</level>

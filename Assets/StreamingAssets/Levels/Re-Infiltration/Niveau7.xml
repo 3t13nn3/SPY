@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<level>
+    <dialogs>
+        <dialog text="Au bout du parcours, se trouve un terminal que tu devras activer afin d'ouvrir une porte qui te permettra d'accéder à la sortie"/>
+        <dialog text="Il semblerait qu'en utilisant l'action 'Répéter', il y aurait un moyen rapide d'atteindre le terminal"/>
+        <dialog text="Vous avez à votre disposition trois types de capteurs, pensez à les utiliser, ils te seront très utiles"/>
+    </dialogs>
+    <indices>
+        <indice text="Afin de réussir ce niveau, vous devez utiliser la boucle 'répéter' qui vous a été proposée afin de répéter un bloc d'actions 8 fois" />
+        <indice text="Pensez à utiliser les capteurs 'mur détecté' et 'terminal détecté' afin de déterminer la direction (droite ou gauche) vers laquelle il faut tourner" />
+    </indices>
+    <map>
+        <line><cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /></line>
+        <line><cell value="-1" /><cell value= "1" /><cell value= "1" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value="-1" /></line>
+        <line><cell value="-1" /><cell value= "1" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "1" /><cell value= "0" /><cell value="-1" /></line>
+        <line><cell value="-1" /><cell value= "1" /><cell value= "0" /><cell value= "1" /><cell value= "0" /><cell value= "1" /><cell value= "3" /><cell value="-1" /></line>
+        <line><cell value="-1" /><cell value= "1" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "1" /><cell value= "0" /><cell value="-1" /></line>
+        <line><cell value="-1" /><cell value= "1" /><cell value= "1" /><cell value= "1" /><cell value= "0" /><cell value= "1" /><cell value="0" /><cell value="-1" /></line>
+        <line><cell value="-1" /><cell value= "1" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value="-1" /></line>
+        <line><cell value="-1" /><cell value= "1" /><cell value= "0" /><cell value= "1" /><cell value= "0" /><cell value= "1" /><cell value= "0" /><cell value="-1" /></line>
+        <line><cell value="-1" /><cell value= "1" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value= "0" /><cell value="-1" /></line>
+        <line><cell value="-1" /><cell value= "1" /><cell value= "0" /><cell value= "1" /><cell value= "0" /><cell value= "1" /><cell value= "1" /><cell value="-1" /></line>
+        <line><cell value="-1" /><cell value= "1" /><cell value= "0" /><cell value= "1" /><cell value= "2" /><cell value= "0" /><cell value= "0" /><cell value="-1" /></line>
+        <line><cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /></line>
+    </map>
+    <blockLimits>
+        <blockLimit blockType="Forward" limit="-1" />
+        <blockLimit blockType="TurnLeft" limit="-1" />
+        <blockLimit blockType="TurnRight" limit="-1" />
+        <blockLimit blockType="Wait" limit="0" />
+        <blockLimit blockType="Activate" limit="-1" />
+        <blockLimit blockType="TurnBack" limit="0" />
+        <blockLimit blockType="If" limit="0" />
+        <blockLimit blockType="IfElse" limit="1" />
+        <blockLimit blockType="For" limit="1" />
+        <blockLimit blockType="While" limit="0" />
+        <blockLimit blockType="Forever" limit="0" />
+        <blockLimit blockType="AndOperator" limit="-1" />
+        <blockLimit blockType="OrOperator" limit="-1" />
+        <blockLimit blockType="NotOperator" limit="-1" />
+        <blockLimit blockType="Wall" limit="-1" />
+        <blockLimit blockType="Enemie" limit="0" />
+        <blockLimit blockType="RedArea" limit="0" />
+        <blockLimit blockType="FieldGate" limit="-1" />
+        <blockLimit blockType="Terminal" limit="-1" />
+        <blockLimit blockType="Exit" limit="0" />
+    </blockLimits>
+    <door posY="8" posX="5" direction="2" slotId="0" />
+    <door posY="6" posX="5" direction="2" slotId="1" />
+    <door posY="7" posX="4" direction="0" slotId="2" />
+    <door posY="3" posX="4" direction="0" slotId="4" />
+    <door posY="1" posX="5" direction="2" slotId="5" />
+    <console state="1" posY="2" posX="4" direction="2">
+        <slot slotId="5"/>
+    </console>
+    
+    <player associatedScriptName="Bob" posY="10" posX="4" direction="0" />
+    <script name="Bob" editMode="0">
+        <for nbFor="8">
+        </for>
+    </script>
+    
+    <score twoStars="2689" threeStars="3735"/>
+</level>
