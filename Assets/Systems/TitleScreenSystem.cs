@@ -64,6 +64,14 @@ public class TitleScreenSystem : FSystem
 				gameData.levelList["Campagne infiltration"].Add(Application.streamingAssetsPath + Path.DirectorySeparatorChar + "Levels" +
 				Path.DirectorySeparatorChar + "Campagne infiltration" + Path.DirectorySeparatorChar + "Niveau" + i + ".xml");
 			}
+
+			//paramFunction();
+			gameData.levelList["Re-Infiltration"] = new List<string>();
+			for (int i = 1; i <= 20; i++)
+			{
+				gameData.levelList["Re-Infiltration"].Add(Application.streamingAssetsPath + Path.DirectorySeparatorChar + "Levels" +
+				Path.DirectorySeparatorChar + "Re-Infiltration" + Path.DirectorySeparatorChar + "Niveau" + i + ".xml");
+			}
 			// Hide Competence button
 			GameObjectManager.setGameObjectState(compLevelButton, false);
 			ParamCompetenceSystem.instance.Pause = true;
