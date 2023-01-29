@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<level>
+  <map>
+    <line><cell value="1" /><cell value="1" /><cell value="1" /> <cell value="1" /><cell value="1" /></line>
+    <line><cell value="1" /><cell value="3" /><cell value="0" /><cell value="0" /><cell value="1" /></line>
+    <line><cell value="1" /><cell value="0" /><cell value="4" /><cell value="4" /><cell value="1" /></line>
+    <line><cell value="1" /><cell value="0" /><cell value="4" /><cell value="4" /><cell value="1" /></line>
+    <line><cell value="1" /><cell value="0" /><cell value="0" /><cell value="4" /><cell value="1" /></line>
+    <line><cell value="1" /><cell value="0" /><cell value="0" /><cell value="0" /><cell value="1" /></line>
+    <line><cell value="1" /><cell value="1" /><cell value="1" /><cell value="2" /><cell value="1" /></line>
+
+  </map>
+  <dialogs>
+	<dialog text="Karl, il y a des pièges un peu partout ! Le service technique a donc élaboré un nouveau capteur ! "/>
+  <dialog text="D'après nos sources, quand tu en détectes un, évite le par la gauche, sinon fonce tout droit vers la sortie ! La première case devant est sécurisée !"/>
+	
+  </dialogs>
+
+  
+  <blockLimits>
+    <blockLimit blockType="Forward" limit="3" />
+    <blockLimit blockType="For" limit="1" />
+    <blockLimit blockType="Trap" limit="4" />
+    <blockLimit blockType="IfElse" limit="1" />
+    <blockLimit blockType="If" limit="2" />
+    <blockLimit blockType="TurnLeft" limit="1" />
+    <blockLimit blockType="TurnRight" limit="1" />
+     <blockLimit blockType="While" limit="1" />
+    <blockLimit blockType="NotOperator" limit="1" />
+
+  </blockLimits>
+  <player associatedScriptName="Karl" posY="6" posX="3" direction="0" />
+  <script name="Karl" editMode="0"/>
+    
+  <score twoStars="0" threeStars="10500"/>
+</level>
