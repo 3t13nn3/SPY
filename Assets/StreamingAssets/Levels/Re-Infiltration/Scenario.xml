@@ -16,7 +16,7 @@
     <level name = "Niveau10_1.xml" />
     <level name = "Niveau10_2.xml" />
     <level name = "Niveau10_3.xml" />
-    <level name = "Niveau11_1.xml" />
-    <level name = "Niveau11_2.xml" />
-    <level name = "Niveau11_3.xml" />
+    <level name = "Niveau11.xml" />
+    <level name = "Niveau12_1.xml" />
+    <level name = "Niveau12_2.xml" />
 </scenario>

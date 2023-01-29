@@ -19,10 +19,8 @@
   </indices>
 
   <dialogs>
-    <dialog text="Il s'avère qu'on surnomme Bob: Lazy Bob car il est très feignant."/>
-    <dialog text="Une chose qu'il adore, c'est de faire le moins de chose possible..."/>
-    <dialog text="Le block Fonction lui permet d'éxecuter plusieurs fois la même suite d'action en utilisant qu'un seul block, il adore ! :D" img="function-9-512.png" imgHeight="45"/>
-    <dialog text="Ici, il aimerait automatiser l'ouverture des portes..."/>
+    <dialog text="Notre feigant préféré se demande comment il pourrait faire pour économiser son énergie pour ouvrir les portes sans trop se fatiguer..."/>
+    <dialog text="Ici, il cherche donc à automatiser l'ouverture des portes..."/>
   </dialogs>
 
   <executionLimit amount="1" />
