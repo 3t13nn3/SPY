@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<level>
+  <map>
+  	<line> <cell value="1"/> <cell value="1" /><cell value="1" /><cell value="1" /> <cell value="1" /><cell value="1" /><cell value="1" /> </line>
+    <line> <cell value="1"/> <cell value="3" /><cell value="0" /><cell value="0" /> <cell value="0" /><cell value="0" /><cell value="1" />   </line>
+    <line> <cell value="0"/> <cell value="4" /><cell value="0" /><cell value="4" /> <cell value="4" /><cell value="4" /><cell value="0" />   </line>
+    <line> <cell value="1"/> <cell value="0" /><cell value="0" /><cell value="0" /><cell value="0" /><cell value="0" /><cell value="1" />    </line>
+    <line> <cell value="0"/> <cell value="4" /><cell value="4" /><cell value="4" /><cell value="0" /><cell value="4" /><cell value="0" />    </line>
+    <line> <cell value="0"/> <cell value="4" /><cell value="4" /><cell value="4" /><cell value="0" /><cell value="4" /><cell value="0" />  </line>
+    <line> <cell value="1"/> <cell value="0" /><cell value="0" /><cell value="0" /><cell value="0" /><cell value="0" /><cell value="1" />  </line>
+    <line> <cell value="1"/> <cell value="0" /><cell value="0" /><cell value="2" /><cell value="0" /><cell value="0" /><cell value="1" />       </line>
+    <line> <cell value="-1"/> <cell value="-1" /><cell value="-1" /><cell value="-1" /> <cell value="-1" /><cell value="-1" /><cell value="-1" /> </line>
+
+  </map>
+
+ <door posY = "2" posX = "0" slotId = "0" direction = "0" />
+ <door posY = "4" posX = "0" slotId = "0" direction = "0" />
+ <door posY = "5" posX = "0" slotId = "0" direction = "0" />
+
+  <door posY = "2" posX = "6" slotId = "0" direction = "0" />
+ <door posY = "4" posX = "6" slotId = "0" direction = "0" />
+ <door posY = "5" posX = "6" slotId = "0" direction = "0" />
+
+
+  <dialogs>
+	<dialog text="Les trois lignes avec des portes bleues aux extrémités sont piégés ! On va devoir les traverser ! Pour chaque ligne une seule des cases est sécurisée"/>
+	<dialog text=" Tant qu'on est pas sortie de là, il faut essayer d'avancer en contournant les pièges par la gauche ! "/>
+	<dialog text=" Une fois arrivé sur la dernière ligne, il va falloir trouver une condition pour se diriger vers la sortie !  "/>
+	<dialog text=" On t'indique qu'il faut mieux se diriger vers la droite au début, pour tester toute la ligne vers la gauche !  "/>
+  </dialogs>
+
+<indices>
+  <indice text = " On utilise une boucle tant que l'on a pas trouvé la sortie. De plus, si tu croise un mur, tu dois tourner à gauche, ça va te servir au début et à la fin du niveau"/>
+  <indice text = " Dans la boucle principale : Si piège ... / Sinon avancer , Si mur ..."/>
+  </indices>
+
+  <blockLimits>
+    <blockLimit blockType="Forward" limit="2" />
+		<blockLimit blockType="TurnLeft" limit="-1" />
+		<blockLimit blockType="TurnRight" limit="-1" />
+		<blockLimit blockType="Wait" limit="0" />
+		<blockLimit blockType="Activate" limit="0" />
+		<blockLimit blockType="TurnBack" limit="0" />
+		<blockLimit blockType="If" limit="1" />
+		<blockLimit blockType="IfElse" limit="-1" />
+		<blockLimit blockType="For" limit="0" />
+		<blockLimit blockType="While" limit="1" />
+		<blockLimit blockType="Forever" limit="0" />
+		<blockLimit blockType="AndOperator" limit="1" />
+		<blockLimit blockType="OrOperator" limit="1" />
+		<blockLimit blockType="NotOperator" limit="1" />
+		<blockLimit blockType="Wall" limit="1" />
+    	<blockLimit blockType="Trap" limit="1" />
+		<blockLimit blockType="Enemie" limit="0" />
+		<blockLimit blockType="RedArea" limit="0" />
+		<blockLimit blockType="FieldGate" limit="0" />
+		<blockLimit blockType="Terminal" limit="0" />
+		<blockLimit blockType="Exit" limit="1" />
+
+  </blockLimits>
+
+
+
+
+  <player associatedScriptName="Bob" posY="7" posX="3" direction="0" />
+  <script name="Bob" editMode="0">
+  <action type="TurnRight"/>
+
+  </script>
+    
+  <score twoStars="3000" threeStars="3921"/>
+</level>

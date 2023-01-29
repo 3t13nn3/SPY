@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<level>
+  <map>
+    <line><cell value="1" /><cell value="1" /><cell value="1" /> <cell value="1" /><cell value="1" /></line>
+    <line><cell value="1" /><cell value="3" /><cell value="0" /><cell value="0" /><cell value="1" /></line>
+    <line><cell value="1" /><cell value="0" /><cell value="4" /><cell value="4" /><cell value="1" /></line>
+    <line><cell value="1" /><cell value="0" /><cell value="4" /><cell value="4" /><cell value="1" /></line>
+    <line><cell value="1" /><cell value="0" /><cell value="0" /><cell value="4" /><cell value="1" /></line>
+    <line><cell value="1" /><cell value="0" /><cell value="0" /><cell value="0" /><cell value="1" /></line>
+    <line><cell value="1" /><cell value="1" /><cell value="1" /><cell value="2" /><cell value="1" /></line>
+
+  </map>
+  <dialogs>
+	<dialog text="Bob, il y a des pièges un peu partout ! Le service technique a donc élaboré un nouveau capteur ! "/>
+  <dialog text="D'après nos sources, quand tu en détectes un, évite le par la gauche, sinon fonce tout droit vers la sortie ! La première case devant est sécurisée !"/>
+	
+  </dialogs>
+
+  <indices>
+  <indice text = "Il faut utiliser une boucle répéter (6 fois), et utiliser une condition si à l'intérieur, en se servant du capteur piège"/>
+  <indice text = " Dans la boucle, la statégie d'évitement : Si piège détecté, tourne à gauche, tout droit, tourne à droite "/>
+  </indices>
+  
+  <blockLimits>
+    <blockLimit blockType="Forward" limit="3" />
+    <blockLimit blockType="For" limit="1" />
+    <blockLimit blockType="Trap" limit="4" />
+    <blockLimit blockType="IfElse" limit="1" />
+    <blockLimit blockType="If" limit="2" />
+    <blockLimit blockType="TurnLeft" limit="1" />
+    <blockLimit blockType="TurnRight" limit="1" />
+     <blockLimit blockType="While" limit="1" />
+    <blockLimit blockType="NotOperator" limit="1" />
+
+  </blockLimits>
+  <player associatedScriptName="Bob" posY="6" posX="3" direction="0" />
+  <script name="Bob" editMode="0"/>
+    
+  <score twoStars="4582" threeStars="4582"/>
+</level>

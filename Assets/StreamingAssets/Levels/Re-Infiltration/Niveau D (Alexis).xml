@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<level>
+  <map>
+  	<line> <cell value="1"/> <cell value="1" /><cell value="1" /><cell value="1" /> <cell value="1" /><cell value="1" /><cell value="1" /> </line>
+  	<line> <cell value="1"/> <cell value="0" /><cell value="0" /><cell value="0" /> <cell value="0" /><cell value="0" /><cell value="1" /> </line>
+    <line> <cell value="1"/> <cell value="0" /><cell value="4" /><cell value="4" /> <cell value="4" /><cell value="0" /><cell value="1" />   </line>
+    <line> <cell value="1"/> <cell value="0" /><cell value="4" /><cell value="3" /> <cell value="0" /><cell value="0" /><cell value="1" />   </line>
+    <line> <cell value="1"/> <cell value="0" /><cell value="4" /><cell value="4" /><cell value="4" /><cell value="0" /><cell value="1" />    </line>
+    <line> <cell value="1"/> <cell value="0" /><cell value="0" /><cell value="0" /><cell value="0" /><cell value="0" /><cell value="1" />    </line>
+    <line> <cell value="1"/> <cell value="1" /><cell value="1" /><cell value="4" /><cell value="1" /><cell value="1" /><cell value="1" />  </line>
+    <line> <cell value="1"/> <cell value="1" /><cell value="1" /><cell value="4" /><cell value="1" /><cell value="1" /><cell value="1" />  </line>
+    <line> <cell value="1"/> <cell value="0" /><cell value="0" /><cell value="2" /><cell value="0" /><cell value="0" /><cell value="1" />       </line>
+    <line> <cell value="-1"/> <cell value="-1" /><cell value="-1" /><cell value="-1" /> <cell value="-1" /><cell value="-1" /><cell value="-1" /> </line>
+
+  </map>
+
+
+
+  <dialogs>
+ 	 <dialog text="Le premier corridor est piégé, mais il n'y a pas d'autres issues, on va devoir l'emprunter !"/>
+	<dialog text="De plus, ils ont minés toutes les premières cases encerclant la sortie sauf une !"/>
+	<dialog text=" Il va falloir tourner autour jusqu'à trouver la case non piégée."/>
+	<dialog text=" On t'a préparé le travail, on sait qu'il faut contourner les pièges par la gauche, et faire bien attention à bien se repositionner quand on détecte pas de pièges sur les extrémités pour tourner autour correctement"/>
+	<dialog text=" Tu dois juste compléter le script ! Bonne chance ! "/>
+  </dialogs>
+
+<indices>
+  <indice text = "Les instructions disponibles sont limitées, tu peux t'en servir pour déduire la solution ! "/>
+  <indice text = " Pour se repositionner (et trouver la sortie) quand on détecte pas de pièges :  avancer, tourner à droite "/>
+  </indices>
+
+  <blockLimits>
+    <blockLimit blockType="Forward" limit="2" />
+		<blockLimit blockType="TurnLeft" limit="1" />
+		<blockLimit blockType="TurnRight" limit="2" />
+		<blockLimit blockType="Wait" limit="0" />
+		<blockLimit blockType="Activate" limit="0" />
+		<blockLimit blockType="TurnBack" limit="0" />
+		<blockLimit blockType="If" limit="1" />
+		<blockLimit blockType="IfElse" limit="-1" />
+		<blockLimit blockType="For" limit="0" />
+		<blockLimit blockType="While" limit="1" />
+		<blockLimit blockType="Forever" limit="0" />
+		<blockLimit blockType="AndOperator" limit="1" />
+		<blockLimit blockType="OrOperator" limit="1" />
+		<blockLimit blockType="NotOperator" limit="1" />
+		<blockLimit blockType="Wall" limit="2" />
+    	<blockLimit blockType="Trap" limit="2" />
+		<blockLimit blockType="Enemie" limit="0" />
+		<blockLimit blockType="RedArea" limit="0" />
+		<blockLimit blockType="FieldGate" limit="0" />
+		<blockLimit blockType="Terminal" limit="0" />
+		<blockLimit blockType="Exit" limit="1" />
+
+  </blockLimits>
+
+
+
+
+  <player associatedScriptName="Bob" posY="8" posX="3" direction="0" />
+  <script name="Bob" editMode="0">
+	<action type="Forward"/>
+	<action type="Forward"/>
+	<action type="Forward"/>
+	<while>
+		<condition>
+			<not>
+				<captor type="Exit" />
+			</not>
+		</condition>
+
+		<container>
+			<ifElse>
+                <condition>
+                    <captor type="Trap" />
+                </condition>
+
+                <thenContainer>
+                    
+                </thenContainer>
+
+                <elseContainer>
+                    
+                </elseContainer>
+			</ifElse>
+			
+		</container>
+	</while>
+
+</script>
+
+  <score twoStars="3500" threeStars="3830"/>
+</level>

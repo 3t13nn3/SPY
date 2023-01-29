@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<level>
+  <map>
+    <line><cell value="1" /><cell value="1" /><cell value="1" /><cell value="1" /> <cell value="1" /><cell value="1" /><cell value="1" /> </line>
+    <line><cell value="1" /><cell value="0" /><cell value="0" /><cell value="3" /> <cell value="0" /><cell value="0" /><cell value="1" /> </line>
+    <line><cell value="1" /><cell value="0" /><cell value="4" /><cell value="4" /><cell value="4" /><cell value="0" /><cell value="1" /> </line>
+    <line><cell value="1" /><cell value="0" /><cell value="4" /><cell value="4" /><cell value="0" /><cell value="0" /><cell value="1" /> </line>
+    <line><cell value="-1" /><cell value="1" /><cell value="0" /><cell value="4" /><cell value="0" /><cell value="1" /><cell value="-1" /> </line>
+    <line><cell value="-1" /><cell value="1" /><cell value="0" /><cell value="0" /><cell value="0" /><cell value="1" /><cell value="-1" /> </line>
+    <line><cell value="-1" /><cell value="1" /><cell value="0" /><cell value="2" /><cell value="0" /><cell value="1" /><cell value="-1" /> </line>
+    <line><cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /> <cell value="-1" /><cell value="-1" /><cell value="-1" /></line>
+
+  </map>
+
+ 
+
+
+  <dialogs>
+	<dialog text=" Il y a des pièges partout ! On sait qu'il faut juste tourner droite quand on les détecte, sinon tout droit !"/>
+	<dialog text=" On peut se servir des murs pour se repositionner ! "/>
+  </dialogs>
+
+<indices>
+  <indice text = " On utilise une boucle tant que l'on a pas trouvé la sortie"/>
+  <indice text = " Dans la boucle principale : Si piège ... , Si mur ..., Avancer"/>
+  </indices>
+
+
+
+  <blockLimits>
+    <blockLimit blockType="Forward" limit="1" />
+		<blockLimit blockType="TurnLeft" limit="-1" />
+		<blockLimit blockType="TurnRight" limit="-1" />
+		<blockLimit blockType="Wait" limit="0" />
+		<blockLimit blockType="Activate" limit="0" />
+		<blockLimit blockType="TurnBack" limit="0" />
+		<blockLimit blockType="If" limit="-1" />
+		<blockLimit blockType="IfElse" limit="0" />
+		<blockLimit blockType="For" limit="0" />
+		<blockLimit blockType="While" limit="1" />
+		<blockLimit blockType="Forever" limit="0" />
+		<blockLimit blockType="AndOperator" limit="0" />
+		<blockLimit blockType="OrOperator" limit="1" />
+		<blockLimit blockType="NotOperator" limit="1" />
+		<blockLimit blockType="Wall" limit="1" />
+    <blockLimit blockType="Trap" limit="1" />
+		<blockLimit blockType="Enemie" limit="0" />
+		<blockLimit blockType="RedArea" limit="0" />
+		<blockLimit blockType="FieldGate" limit="0" />
+		<blockLimit blockType="Terminal" limit="0" />
+		<blockLimit blockType="Exit" limit="1" />
+
+  </blockLimits>
+
+
+
+
+  <player associatedScriptName="Bob" posY="6" posX="3" direction="0" />
+  <script name="Bob" editMode="0"/>
+    
+  <score twoStars="3500" threeStars="4420"/>
+</level>

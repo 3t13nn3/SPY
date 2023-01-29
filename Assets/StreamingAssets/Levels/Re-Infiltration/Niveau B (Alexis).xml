@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<level>
+  <map>
+    <line><cell value="1" /><cell value="1" /><cell value="1" /><cell value="1" /> <cell value="1" /><cell value="1" /><cell value="1" /><cell value="1" /></line>
+    <line><cell value="1" /><cell value="0" /><cell value="0" /><cell value="4" /> <cell value="0" /><cell value="0" /><cell value="0" /><cell value="1" /></line>
+    <line><cell value="1" /><cell value="4" /><cell value="4" /><cell value="0" /><cell value="1" /><cell value="0" /><cell value="0" /><cell value="1" /></line>
+    <line><cell value="1" /><cell value="0" /><cell value="0" /><cell value="0" /><cell value="4" /><cell value="0" /><cell value="0" /><cell value="1" /></line>
+    <line><cell value="1" /><cell value="0" /><cell value="0" /><cell value="4" /><cell value="0" /><cell value="1" /><cell value="0" /><cell value="1" /></line>
+    <line><cell value="1" /><cell value="0" /><cell value="1" /><cell value="4" /><cell value="0" /><cell value="1" /><cell value="0" /><cell value="1" /></line>
+    <line><cell value="1" /><cell value="3" /><cell value="0" /><cell value="0" /><cell value="4" /><cell value="0" /><cell value="2" /><cell value="1" /></line>
+    <line><cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /> <cell value="-1" /><cell value="-1" /><cell value="-1" /><cell value="-1" /></line>
+
+  </map>
+
+  <door posY = "1" posX = "1" slotId = "0" direction = "0" />
+  <door posY = "1" posX = "2" slotId = "0" direction = "0" />
+  <door posY = "4" posX = "4" slotId = "0" direction = "2" />
+  <door posY = "5" posX = "4" slotId = "0" direction = "2" />
+
+
+  <dialogs>
+	<dialog text=" Bob, on nous informe que toutes les cases adjacentes (nord, sud, est et ouest) aux portes bleues contiennent des pièges !"/>
+  <dialog text=" L'équipe technique a préparé deux plans, d'après eux dans tous les cas tu vas perdre deux coeurs, mais une seule est envisageable ! "/>
+  <dialog text=" A toi de la trouver ! Examine bien les scripts ! "/>
+  </dialogs>
+  <blockLimits>
+    <blockLimit blockType="Forward" limit="0" />
+    <blockLimit blockType="For" limit="0" />
+    <blockLimit blockType="Trap" limit="0" />
+    <blockLimit blockType="IfElse" limit="0" />
+    <blockLimit blockType="If" limit="0" />
+    <blockLimit blockType="TurnLeft" limit="0" />
+    <blockLimit blockType="TurnRight" limit="0" />
+     <blockLimit blockType="While" limit="0" />
+    <blockLimit blockType="NotOperator" limit="0" />
+
+  </blockLimits>
+
+  <script name="Essai1" editMode="3" type="2">
+    <action type="Forward"/>
+    <action type="Forward"/>
+    <action type="Forward"/>
+    <action type="TurnLeft"/>
+    <action type="Forward"/>
+    <action type="Forward"/>
+    <action type="Forward"/>
+    <action type="TurnLeft"/>
+    <action type="Forward"/>
+    <action type="Forward"/>
+    <action type="Forward"/>
+    <action type="TurnRight"/>
+    <action type="Forward"/>
+    <action type="Forward"/>
+  </script>
+
+  <script name="Essai2" editMode="3" type="0">
+    <action type="Forward"/>
+    <action type="Forward"/>
+    <action type="Forward"/>
+    <action type="TurnLeft"/>
+    <action type="Forward"/>
+    <action type="TurnRight"/>
+    <action type="Forward"/>
+    <action type="Forward"/>
+    <action type="TurnLeft"/>
+    <action type="Forward"/>
+    <action type="Forward"/>
+    <action type="TurnLeft"/>
+    <action type="Forward"/>
+    <action type="Forward"/>
+    <action type="Forward"/>
+    <action type="TurnRight"/>
+    <action type="Forward"/>
+    <action type="Forward"/>
+    <action type="TurnLeft"/>
+    <action type="Forward"/>
+    <action type="Forward"/>
+  </script>
+
+
+
+  <player associatedScriptName="Bob" posY="6" posX="6" direction="0" />
+    
+  <score twoStars="3503" threeStars="3503"/>
+</level>
