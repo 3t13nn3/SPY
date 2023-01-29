@@ -15,7 +15,6 @@
   </map>
   <blockLimits>
     <blockLimit blockType="Forward" limit="-1" />
-    <blockLimit blockType="Function" limit="-1" />
     <blockLimit blockType="TurnLeft" limit="-1" />
     <blockLimit blockType="TurnRight" limit="-1" />
     <blockLimit blockType="Wait" limit="-1" />
@@ -51,8 +50,6 @@
         <action type="Forward"/>
       </forever>
   </script>
-
-  <script name="fonction" editMode="0"></script>
 
   <score twoStars="5714" threeStars="6214"/>
 </level>

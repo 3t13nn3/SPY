@@ -170,6 +170,32 @@ public static class EditingUtility
 	// Copy an editable script to the container of an agent
 	public static void fillExecutablePanel(GameObject srcScript, GameObject targetContainer, string agentTag)
 	{
+		if (GameObject.Find("Control_Function(Clone)") != null)
+		{
+			GameObject[] c = GameObject.FindGameObjectsWithTag("ScriptConstructor");
+			foreach (var e in c)
+			{	
+				Transform[] children = e.transform.GetComponentsInChildren<Transform>();
+				foreach (Transform child in children)
+				{
+					if(string.Compare(child.name, "Text (TMP)") == 1) {
+						string a = e.transform.Find("ContainerName").Find("Text Area").Find("Text").GetComponent<TextMeshProUGUI>().text;
+						if(string.Compare(a, "fonction") == 1) {
+							foreach (Transform comp in e.transform)
+							{
+								if(string.Compare(comp.name, "Header") != 0 && string.Compare(comp.name, "ContainerName") != 0) {
+									GameObject cpy = GameObject.Instantiate(comp.gameObject);
+									GameObjectManager.bind(cpy);
+									cpy.transform.SetParent(GameObject.Find("Control_Function(Clone)").transform.Find("Container").transform); // .gameObject.
+								}
+							}
+							break;
+						}
+					}
+				}
+
+			}
+		}
 		// On va copier la sequence cr�� par le joueur dans le container de la fen�tre du robot
 		// On commence par cr�er une copie du container ou se trouve la sequence
 		GameObject containerCopy = CopyActionsFromAndInitFirstChild(srcScript, false, agentTag);
@@ -186,6 +212,8 @@ public static class EditingUtility
 				child.SetParent(targetContainer.transform, false);
 			}
 		}
+
+		
 		// Va linker les blocs ensemble
 		// C'est � dire qu'il va d�finir pour chaque bloc, qu'elle est le suivant � ex�cuter
 		computeNext(targetContainer);
@@ -250,6 +278,7 @@ public static class EditingUtility
 				}
 			}
 		}
+
 		// Pour chaque block de boucle infini
 		foreach (ForeverControl loopAct in copyGO.GetComponentsInChildren<ForeverControl>())
 		{
@@ -262,6 +291,47 @@ public static class EditingUtility
 				}
 			}
 		}
+		
+		foreach (FunctionControl e in copyGO.GetComponentsInChildren<FunctionControl>())
+		{	
+
+			GameObject[] c = GameObject.FindGameObjectsWithTag("ScriptConstructor");
+			foreach (var ee in c)
+			{	
+				Transform[] children = ee.transform.GetComponentsInChildren<Transform>();
+				foreach (Transform child in children)
+				{
+					if(string.Compare(child.name, "Text (TMP)") == 1) {
+						string a = ee.transform.Find("ContainerName").Find("Text Area").Find("Text").GetComponent<TextMeshProUGUI>().text;
+						if(string.Compare(a, "fonction") == 1) {
+							
+							if(e.transform.Find("Container").transform.childCount == 0) {
+								foreach (Transform comp in ee.transform)
+								{
+
+									if(string.Compare(comp.name, "Header") != 0 && string.Compare(comp.name, "ContainerName") != 0) {
+										GameObject cpy = GameObject.Instantiate(comp.gameObject);
+										//GameObjectManager.bind(cpy);
+										cpy.transform.SetParent(e.transform.Find("Container").transform); // .gameObject.
+									}
+								}
+								break;
+							}
+						}
+					}
+				}
+
+			}
+
+			GameObject cc = e.transform.Find("Container").gameObject;
+			if(cc.transform.childCount > 2) {
+				BaseElement be = cc.GetComponentInChildren<BaseElement>();
+				e.firstChild = be.gameObject;
+			} else {
+				Debug.Log("PAS REMPLIS");
+			}
+		}
+
 		// Pour chaque block if
 		foreach (IfControl ifAct in copyGO.GetComponentsInChildren<IfControl>())
 		{
@@ -330,9 +400,12 @@ public static class EditingUtility
 	{
 		// V�rifier que c'est bien un block de controle
 		if (specialBlock.GetComponent<ControlElement>())
-		{
-			// R�cup�rer le container des actions
+		{	
 			Transform container = specialBlock.transform.Find("Container");
+
+			// Debug.Log(container.name);
+			Debug.Log(container.childCount );
+			// if (container.childCount == 0) return;
 			// remove the last child, the emptyZone
 			GameObject emptySlot = container.GetChild(container.childCount - 1).gameObject;
 			if (GameObjectManager.isBound(emptySlot))

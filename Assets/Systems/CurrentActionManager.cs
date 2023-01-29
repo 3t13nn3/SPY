@@ -245,6 +245,15 @@ public class CurrentActionManager : FSystem
 				// always return firstchild of this ForeverControl
 				return getFirstActionOf(action.GetComponent<ForeverControl>().firstChild, agent);
 			}
+			// check if action is a FunctionControl
+			else if (action.GetComponent<FunctionControl>())
+			{
+				
+				//Debug.Log("On execute la fonction");
+				//Debug.Log(agent.name);
+				//return getFirstActionOf(container.GetChild(0).gameObject, agent);
+				return getFirstActionOf(action.GetComponent<FunctionControl>().firstChild, agent);
+			}
 		}
 		return null;
 	}
@@ -363,7 +372,6 @@ public class CurrentActionManager : FSystem
 	// one step consists in removing the current actions this frame and adding new CurrentAction components next frame
 	private void onNewStep(){
 		GameObject nextAction;
-
 
 		foreach(GameObject currentActionGO in f_currentActions){
 			CurrentAction currentAction = currentActionGO.GetComponent<CurrentAction>();
@@ -605,6 +613,14 @@ public class CurrentActionManager : FSystem
 				return foreverAction.firstChild;
 			else
 				return getFirstActionOf(foreverAction.firstChild, agent);
+		}
+
+		else if(currentAction.GetComponent<FunctionControl>()){
+			FunctionControl functionAction = currentAction.GetComponent<FunctionControl>();
+			if (functionAction.firstChild == null || functionAction.firstChild.GetComponent<BasicAction>())
+				return functionAction.firstChild;
+			else
+				return getFirstActionOf(functionAction.firstChild, agent);
 		}
 
 		return null;
