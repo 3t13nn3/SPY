@@ -253,7 +253,7 @@ public class TitleScreenSystem : FSystem
 					// unlocked levels
 					else
                         levelButtons[directory][i].transform.Find("Button").GetComponent<Button>().interactable = false;
-					levelButtons[directory][i].transform.Find("Button").GetComponent<Button>().interactable = true;
+					
 					//scores
 					int scoredStars = PlayerPrefs.GetInt(directoryName + Path.DirectorySeparatorChar + i + gameData.scoreKey, 0); //0 star by default
 					// Debug.Log(directoryName + Path.DirectorySeparatorChar + i + gameData.scoreKey);

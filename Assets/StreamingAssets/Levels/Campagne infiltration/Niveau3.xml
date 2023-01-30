@@ -8,8 +8,7 @@
   </map>
   <dialogs>
 	<dialog text="Il faut continuer à avancer." />
-	<dialog text="Au fait, notre satellite d'observation suis automatiquement le déplacement de Karl mais vous pouvez le contrôler avec les flèches du clavier et la molette de la souris. N'hésitez pas à expérimenter ces commandes." textHeight="70"/>
-	<dialog text="Vous pouvez aussi à tout moment accéder au menu de la mission pour, par exemple, revoir les textes d'introduction, relancer la mission ou la quitter." textHeight="70" img="menu.png" imgHeight="150"/>
+	<dialog text="Au fait, notre drone d'observation suis automatiquement le déplacement de Karl mais tu peux le contrôler avec les boutons situés en bas à droite du jeu. N'hésite pas à expérimenter ces commandes." img="cameraControl.png" imgHeight="150"/>
   </dialogs>
   <blockLimits>
     <blockLimit blockType="Forward" limit="4" />
@@ -18,16 +17,16 @@
     <blockLimit blockType="Wait" limit="0" />
     <blockLimit blockType="Activate" limit="0" />
     <blockLimit blockType="TurnBack" limit="0" />
-    <blockLimit blockType="If" limit="0" />
+    <blockLimit blockType="IfThen" limit="0" />
     <blockLimit blockType="IfElse" limit="0" />
-    <blockLimit blockType="For" limit="0" />
+    <blockLimit blockType="ForLoop" limit="0" />
     <blockLimit blockType="While" limit="0" />
     <blockLimit blockType="Forever" limit="0" />
     <blockLimit blockType="AndOperator" limit="0" />
     <blockLimit blockType="OrOperator" limit="0" />
     <blockLimit blockType="NotOperator" limit="0" />
-    <blockLimit blockType="Wall" limit="0" />
-    <blockLimit blockType="Enemie" limit="0" />
+    <blockLimit blockType="WallFront" limit="0" />
+    <blockLimit blockType="Enemy" limit="0" />
     <blockLimit blockType="RedArea" limit="0" />
     <blockLimit blockType="FieldGate" limit="0" />
     <blockLimit blockType="Terminal" limit="0" />
