@@ -7,14 +7,8 @@
     <line><cell value="0" /><cell value="0" /><cell value="0" /></line>
   </map>
   <dialogs>
-  <dialog text="Re ! Tu vas voir exactement le même dialogue par la suite, à plus :)"/>
-	<dialog text="23 août 2041...&#xA;&#xA;Vous avez un message..."/>
-	<dialog text="Bonjour agent special !&#xA;&#xA;Nous venons d'apprendre que des documents top-secrets ont été volés et nous devons les récupérer." textHeight="70"/>
-	<dialog text="Nous avons envoyé sur le terrain un prototype de robot, son nom de code est Bob." />
-	<dialog text="Pour le contrôler à distance vous devrez lui envoyer les bonnes actions. Vous pouvez donner des ordres à Karl en faisant glisser les actions dans la zone de programme." img="drophere.png" imgHeight="150" />
-	<dialog text="Si vous vous trompez vous pouvez utiliser le clic droit sur une action du programme pour la supprimer, ou nettoyer tout le programme à l'aide de la petite balayette." img="resetButton.png" imgHeight="150"/>
-	<dialog text="Pour téléporter Bob dans le bâtiment vous devez lui commander de se déplacer sur le téléporteur rouge !" />
-	<dialog text="A vous de jouer, essayez d'utiliser l'action 'Avancer' dans la zone de programme du robot et cliquez sur le bouton lecture pour envoyer le programme à Bob." img="FirstActionAndPlay.png" imgHeight="150"/>
+  <dialog text="Re ! c'est une nouvelle campagne d'infiltration, il faut avoir fini la campagne précédente pour faire celle-là :)"/>
+	<dialog text="Sur ceux, bonne chance !"/>
   </dialogs>
   <blockLimits>
     <blockLimit blockType="Forward" limit="1" />
